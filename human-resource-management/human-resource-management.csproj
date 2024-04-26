@@ -40,8 +40,17 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Controller\DepartmentController.cs" />
+        <Compile Include="Controller\EmployeeController.cs" />
+        <Compile Include="Controller\ProjectController.cs" />
+        <Compile Include="Modal\DepartmentModal.cs" />
+        <Compile Include="Modal\EmployeeModal.cs" />
+        <Compile Include="Modal\ProjectModal.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="View\DepartmentView.cs" />
+        <Compile Include="View\EmployeeView.cs" />
+        <Compile Include="View\ProjectView.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

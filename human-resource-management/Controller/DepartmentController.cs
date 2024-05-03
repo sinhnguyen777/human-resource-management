@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using human_resource_management.Modal;
+using human_resource_management.Model;
+using human_resource_management.Model;
 
 namespace human_resource_management.Controller
 {
     public class DepartmentController
     {
-        public static List<DepartmentModal> departments = new List<DepartmentModal>
+        public static List<DepartmentModel> departments = new List<DepartmentModel>
         {
-            new DepartmentModal() {
+            new DepartmentModel() {
                 Id = 1, 
                 Name = "Development", 
-                Manager = new EmployeeModal() {
+                Manager = new EmployeeModel() {
                     Id = 1,
                     Name = "Lê Tiến Dũng",
                     Birthday = new DateTime(),
@@ -19,9 +20,9 @@ namespace human_resource_management.Controller
                     Sex = "Nam",
                 }, 
                 TeamSize = 10,
-                Employees = new List<EmployeeModal>
+                Employees = new List<EmployeeModel>
                 {
-                    new EmployeeModal()
+                    new EmployeeModel()
                     {
                         Id = 1,
                         Name = "Lê Tiến Dũng",

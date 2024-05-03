@@ -1,8 +1,8 @@
 using System;
 
-namespace human_resource_management.Modal
+namespace human_resource_management.Model
 {
-    public class EmployeeModal
+    public class EmployeeModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

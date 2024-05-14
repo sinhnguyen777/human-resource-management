@@ -7,9 +7,9 @@ namespace human_resource_management.View
     {
         public static void ManageDepartments()
         {
-            Console.WriteLine("======= Quản lý phòng ban =======");
             while (true)
             {
+                Console.WriteLine("======= Quản lý phòng ban =======");
                 Console.WriteLine("1. Xem danh sách phòng ban");
                 Console.WriteLine("2. Thêm phòng ban mới");
                 Console.WriteLine("3. Xóa phòng ban");
@@ -17,10 +17,11 @@ namespace human_resource_management.View
                 Console.WriteLine("5. Thêm nhân viên vào phòng ban");
                 Console.WriteLine("6. Chỉ định trưởng phòng");
                 Console.WriteLine("0. Quay lại");
+                Console.WriteLine();
 
                 Console.Write("Chọn chức năng: ");
                 string choice = Console.ReadLine();
-                
+
                 switch (choice)
                 {
                     case "1":

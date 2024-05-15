@@ -13,6 +13,7 @@
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,17 +41,19 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Controller\DepartmentController.cs" />
-        <Compile Include="Controller\EmployeeController.cs" />
-        <Compile Include="Controller\ProjectController.cs" />
-        <Compile Include="Model\DepartmentModel.cs" />
-        <Compile Include="Model\EmployeeModel.cs" />
-        <Compile Include="Model\ProjectModel.cs" />
+        <Compile Include="Controller\DepartmentController.cs"/>
+        <Compile Include="Controller\EmployeeController.cs"/>
+        <Compile Include="Controller\ProjectController.cs"/>
+        <Compile Include="Model\DepartmentModel.cs"/>
+        <Compile Include="Model\EmployeeModel.cs"/>
+        <Compile Include="Model\ProjectModel.cs"/>
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="View\DepartmentView.cs" />
-        <Compile Include="View\EmployeeView.cs" />
-        <Compile Include="View\ProjectView.cs" />
+        <Compile Include="utils\ConvertGenderToVietNam.cs"/>
+        <Compile Include="utils\DateValidator.cs"/>
+        <Compile Include="View\DepartmentView.cs"/>
+        <Compile Include="View\EmployeeView.cs"/>
+        <Compile Include="View\ProjectView.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

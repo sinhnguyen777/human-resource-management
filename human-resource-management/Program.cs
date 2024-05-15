@@ -19,8 +19,9 @@ namespace human_resource_management
                 Console.WriteLine("2. Quản lý nhân viên");
                 Console.WriteLine("3. Quản lý dự án");
                 Console.WriteLine("0. Thoát");
+                Console.Write("Chọn chức năng: ");
+                // Console.WriteLine();
 
-                Console.Write("Chọn chức năng: \n");
                 string choice = Console.ReadLine();
 
                 switch (choice)

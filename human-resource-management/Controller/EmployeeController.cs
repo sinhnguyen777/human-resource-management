@@ -30,7 +30,12 @@ namespace human_resource_management.Controller
                 foreach (var item in employees)
                 {
                     Console.WriteLine(
-                        $"Mã nhân viên: {item.Id}, Tên nhân viên: {item.Name}, Ngày sinh: {item.Birthday.ToShortDateString()}, Giới tính: {item.Sex}, Lương: {item.Salary}");
+                        $"Mã nhân viên: {item.Id}, " +
+                        $"Tên nhân viên: {item.Name}, " +
+                        $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
+                        $"Giới tính: {item.Sex.ToVietnameseString()}, " +
+                        $"Lương: {item.Salary}"
+                    );
                 }
             }
         }
@@ -66,7 +71,7 @@ namespace human_resource_management.Controller
             Console.WriteLine("Employee deleted successfully.");
         }
 
-        private SexEnum GetSexFromUserInput()
+        private GenderEnum GetSexFromUserInput()
         {
             while (true)
             {
@@ -80,11 +85,11 @@ namespace human_resource_management.Controller
                 switch (choice)
                 {
                     case 1:
-                        return SexEnum.Male;
+                        return GenderEnum.Male;
                     case 2:
-                        return SexEnum.Female;
+                        return GenderEnum.Female;
                     case 3:
-                        return SexEnum.Other;
+                        return GenderEnum.Other;
                     default:
                         Console.WriteLine("Lựa chọn không hợp lệ, vui lòng chọn lại.");
                         break;

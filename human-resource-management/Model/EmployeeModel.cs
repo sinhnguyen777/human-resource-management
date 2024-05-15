@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace human_resource_management.Model
 {
-    public enum SexEnum
+    public enum GenderEnum
     {
         Male,
         Female,
@@ -15,8 +15,10 @@ namespace human_resource_management.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
-        public SexEnum Sex { get; set; }
+        public GenderEnum Sex { get; set; }
         public string Salary { get; set; }
+
+        // public string position { get; set; }
     }
 
     public abstract class BaseRepository<T> where T : class

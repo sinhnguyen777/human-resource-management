@@ -18,7 +18,7 @@ namespace human_resource_management.Controller
                     Name = "Lê Tiến Dũng",
                     Birthday = new DateTime(),
                     Salary = "15000",
-                    Sex = SexEnum.Female,
+                    Sex = GenderEnum.Female,
                 },
                 TeamSize = 10,
                 Employees = new List<EmployeeModel>
@@ -29,7 +29,7 @@ namespace human_resource_management.Controller
                         Name = "Lê Tiến Dũng",
                         Birthday = new DateTime(),
                         Salary = "15000",
-                        Sex = SexEnum.Female,
+                        Sex = GenderEnum.Female,
                     }
                 }
             }

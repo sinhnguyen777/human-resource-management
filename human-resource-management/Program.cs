@@ -10,8 +10,6 @@ namespace human_resource_management
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            EmployeeView employeeView = new EmployeeView();
-
             while (true)
             {
                 Console.WriteLine("======= Hệ thống quản lý nhân sự =======");
@@ -21,7 +19,7 @@ namespace human_resource_management
                 Console.WriteLine("0. Thoát");
                 Console.Write("Chọn chức năng: ");
 
-                string choice = Console.ReadLine();
+                string choice = Console.ReadLine() ?? string.Empty;
 
                 switch (choice)
                 {
@@ -29,7 +27,7 @@ namespace human_resource_management
                         DepartmentView.ManageDepartments();
                         break;
                     case "2":
-                        employeeView.ManageEmployees();
+                        EmployeeView.ManageEmployees();
                         break;
                     case "3":
                         break;

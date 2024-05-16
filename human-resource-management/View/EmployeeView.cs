@@ -9,7 +9,7 @@ namespace human_resource_management.View
         private static EmployeeRepository _employeeRepository = new EmployeeRepository();
         private static EmployeeController _employeeController = new EmployeeController(_employeeRepository);
 
-        public void ManageEmployees()
+        public static void ManageEmployees()
         {
             while (true)
             {

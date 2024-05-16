@@ -18,7 +18,7 @@ namespace human_resource_management.Model
         public GenderEnum Sex { get; set; }
         public string Salary { get; set; }
 
-        // public string position { get; set; }
+        public string Position { get; set; }
     }
 
     public abstract class BaseRepository<T> where T : class
@@ -50,6 +50,7 @@ namespace human_resource_management.Model
                 existingEmployee.Birthday = entity.Birthday;
                 existingEmployee.Sex = entity.Sex;
                 existingEmployee.Salary = entity.Salary;
+                existingEmployee.Position = entity.Position;
             }
             else
             {

@@ -13,12 +13,12 @@ namespace human_resource_management.Model
     public class EmployeeModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public DateTime Birthday { get; set; }
         public GenderEnum Sex { get; set; }
-        public string Salary { get; set; }
+        public string? Salary { get; set; }
 
-        public string Position { get; set; }
+        public string? Position { get; set; }
     }
 
     public abstract class BaseRepository<T> where T : class
@@ -43,7 +43,7 @@ namespace human_resource_management.Model
 
         public override void Update(EmployeeModel entity)
         {
-            EmployeeModel existingEmployee = employees.Find(item => item.Id == entity.Id);
+            EmployeeModel? existingEmployee = employees.Find(item => item.Id == entity.Id);
             if (existingEmployee != null)
             {
                 existingEmployee.Name = entity.Name;
@@ -60,7 +60,7 @@ namespace human_resource_management.Model
 
         public override void Delete(EmployeeModel entity)
         {
-            EmployeeModel existingEmployee = employees.Find(item => item.Id == entity.Id);
+            EmployeeModel? existingEmployee = employees.Find(item => item.Id == entity.Id);
             if (existingEmployee != null)
             {
                 employees.Remove(existingEmployee);
@@ -73,7 +73,7 @@ namespace human_resource_management.Model
 
         public override EmployeeModel GetById(int id)
         {
-            EmployeeModel existingEmployee = employees.Find(item => item.Id == id);
+            EmployeeModel? existingEmployee = employees.Find(item => item.Id == id);
             if (existingEmployee != null)
             {
                 return existingEmployee;

@@ -46,7 +46,7 @@ namespace human_resource_management.Controller
             EmployeeModel employee = new EmployeeModel();
 
             Console.Write("Nhập tên nhân viên: ");
-            employee.Name = Console.ReadLine();
+            employee.Name = Console.ReadLine() ?? string.Empty;
 
             employee.Birthday = DateValidator.GetValidDateOfBirth();
 
@@ -57,7 +57,7 @@ namespace human_resource_management.Controller
             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
 
             Console.WriteLine("Vị trí làm việc:");
-            employee.Position = Console.ReadLine();
+            employee.Position = Console.ReadLine() ?? string.Empty;
 
             employeeRepository.Add(employee);
             Console.WriteLine("Thêm nhân viên thành công.");
@@ -75,7 +75,7 @@ namespace human_resource_management.Controller
             Console.WriteLine("Employee deleted successfully.");
         }
 
-        private GenderEnum GetSexFromUserInput()
+        private static GenderEnum GetSexFromUserInput()
         {
             while (true)
             {

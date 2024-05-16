@@ -10,7 +10,7 @@ namespace human_resource_management.utils
             while (true)
             {
                 Console.Write("Nhập ngày sinh (dd/MM/yyyy): ");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine() ?? string.Empty;
 
                 if (DateTime.TryParseExact(input, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None,
                         out DateTime date))

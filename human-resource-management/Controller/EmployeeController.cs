@@ -34,7 +34,8 @@ namespace human_resource_management.Controller
                         $"Tên nhân viên: {item.Name}, " +
                         $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
                         $"Giới tính: {item.Sex.ToVietnameseString()}, " +
-                        $"Lương: {item.Salary}"
+                        $"Lương: {item.Salary}, " +
+                        $"Vị trí: {item.Position}"
                     );
                 }
             }
@@ -54,6 +55,9 @@ namespace human_resource_management.Controller
             Console.Write("Nhập lương: ");
             int salaryInput = int.Parse(Console.ReadLine() ?? string.Empty);
             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
+
+            Console.WriteLine("Vị trí làm việc:");
+            employee.Position = Console.ReadLine();
 
             employeeRepository.Add(employee);
             Console.WriteLine("Thêm nhân viên thành công.");

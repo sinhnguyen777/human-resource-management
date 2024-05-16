@@ -56,7 +56,7 @@ namespace human_resource_management.Controller
             int salaryInput = int.Parse(Console.ReadLine() ?? string.Empty);
             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
 
-            Console.WriteLine("Vị trí làm việc:");
+            Console.Write("Vị trí làm việc:");
             employee.Position = Console.ReadLine() ?? string.Empty;
 
             employeeRepository.Add(employee);

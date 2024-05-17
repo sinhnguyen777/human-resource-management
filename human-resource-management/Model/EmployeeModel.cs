@@ -13,6 +13,9 @@ namespace human_resource_management.Model
     public class EmployeeModel
     {
         public int Id { get; set; }
+
+
+        public int test { get; set; }
         public string? Name { get; set; }
         public DateTime Birthday { get; set; }
         public GenderEnum Sex { get; set; }

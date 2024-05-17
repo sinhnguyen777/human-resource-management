@@ -17,8 +17,8 @@ namespace human_resource_management.Model
         public DateTime Birthday { get; set; }
         public GenderEnum Sex { get; set; }
         public string? Salary { get; set; }
-
         public string? Position { get; set; }
+        public DepartmentModel? Department { get; set; }
     }
 
     public abstract class BaseRepository<T> where T : class

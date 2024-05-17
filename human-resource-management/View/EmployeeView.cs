@@ -23,6 +23,9 @@ namespace human_resource_management.View
 
                 Console.Write("Chọn chức năng: ");
 
+                Console.Write("Chọn chức năng: ");
+                Console.Write("Chọn chức năng: ");
+
                 int choice = int.Parse(Console.ReadLine() ?? string.Empty);
 
                 switch (choice)

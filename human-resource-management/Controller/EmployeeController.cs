@@ -35,7 +35,8 @@ namespace human_resource_management.Controller
                         $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
                         $"Giới tính: {item.Sex.ToVietnameseString()}, " +
                         $"Lương: {item.Salary}, " +
-                        $"Vị trí: {item.Position}"
+                        $"Vị trí: {item.Position}, " +
+                        $"Phòng ban: {item.Department}"
                     );
                 }
             }
@@ -50,7 +51,7 @@ namespace human_resource_management.Controller
 
             employee.Birthday = DateValidator.GetValidDateOfBirth();
 
-            employee.Sex = GetSexFromUserInput();
+            employee.Sex = InputGender();
 
             Console.Write("Nhập lương: ");
             int salaryInput = int.Parse(Console.ReadLine() ?? string.Empty);
@@ -107,7 +108,65 @@ namespace human_resource_management.Controller
             return parts.Length > 0 ? parts[^1] : string.Empty;
         }
 
-        private static GenderEnum GetSexFromUserInput()
+        public void FilterEmployee()
+        {
+            Console.Write("Nhập tên nhân viên cần cập nhật: ");
+            string name = Console.ReadLine() ?? string.Empty;
+            List<EmployeeModel> employees = employeeRepository.GetAll();
+
+            employees.Sort((x, y) => string.Compare(x.Name, y.Name));
+
+            int index = BinarySearchByName(employees, name);
+
+            if (index == -1)
+            {
+                Console.WriteLine($"Không tìm thấy người có tên '{name}' trong danh sách.");
+            }
+            else
+            {
+                Console.WriteLine($"Tìm thấy người có tên '{name}' tại vị trí {employees[index].Id}");
+                Console.WriteLine(
+                        $"Mã nhân viên: {employees[index].Id}, " +
+                        $"Tên nhân viên: {employees[index].Name}, " +
+                        $"Ngày sinh: {employees[index].Birthday.ToShortDateString()}, " +
+                        $"Giới tính: {employees[index].Sex.ToVietnameseString()}, " +
+                        $"Lương: {employees[index].Salary}, " +
+                        $"Vị trí: {employees[index].Position}, " +
+                        $"Phòng ban: {employees[index].Department}"
+                    );
+
+            }
+
+        }
+
+        private static int BinarySearchByName(List<EmployeeModel> employees, string value)
+        {
+            int left = 0;
+            int right = employees.Count - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                int result = string.Compare(employees[mid].Name, value);
+
+                if (result == 0)
+                {
+                    return mid;
+                }
+                else if (result < 0)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+
+            }
+
+            return -1;
+        }
+
+        private static GenderEnum InputGender()
         {
             while (true)
             {

@@ -12,7 +12,7 @@ namespace human_resource_management
 
             while (true)
             {
-                Console.WriteLine("======= Hệ thống quản lý nhân sự =======");
+                Console.WriteLine("---------- Hệ thống quản lý nhân sự ----------");
                 Console.WriteLine("1. Quản lý phòng ban");
                 Console.WriteLine("2. Quản lý nhân viên");
                 Console.WriteLine("3. Quản lý dự án");

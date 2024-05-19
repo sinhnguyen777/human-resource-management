@@ -12,7 +12,7 @@ namespace human_resource_management.Controller
 
         public EmployeeController(EmployeeRepository repository)
         {
-            this.employeeRepository = new EmployeeRepository();
+            this.employeeRepository = repository;
         }
 
         public void GetAllListEmployees()
@@ -74,6 +74,38 @@ namespace human_resource_management.Controller
         {
             employeeRepository.Delete(employee);
             Console.WriteLine("Employee deleted successfully.");
+        }
+
+        public void SortEmployeesBy(Func<EmployeeModel, IComparable> keySelector)
+        {
+            List<EmployeeModel> employees = employeeRepository.GetAll();
+            for (int i = 0; i < employees.Count - 1; i++)
+            {
+                for (int j = 0; j < employees.Count - i - 1; j++)
+                {
+                    if (keySelector(employees[j]).CompareTo(keySelector(employees[j + 1])) > 0)
+                    {
+                        var temp = employees[j];
+                        employees[j] = employees[j + 1];
+                        employees[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+        public void SortEmployeesByLastName()
+        {
+            SortEmployeesBy(employee => GetLastName(employee.Name));
+        }
+
+        private static string GetLastName(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+            {
+                return string.Empty;
+            }
+            var parts = fullName.Split(' ');
+            return parts.Length > 0 ? parts[^1] : string.Empty;
         }
 
         public void FilterEmployee()

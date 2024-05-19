@@ -18,6 +18,9 @@ namespace human_resource_management.View
                 Console.WriteLine("2. Thêm nhân viên mới");
                 Console.WriteLine("3. Xóa nhân viên");
                 Console.WriteLine("4. Sửa thông tin nhân viên");
+                Console.WriteLine("5. Sắp xếp nhân viên theo mã nhân viên");
+                Console.WriteLine("6. Sắp xếp nhân viên theo tên");
+                Console.WriteLine("7. Sắp xếp nhân viên theo giới tính");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -36,6 +39,18 @@ namespace human_resource_management.View
                     case 3:
                         break;
                     case 4:
+                        break;
+                    case 5:
+                        _employeeController.SortEmployeesBy(employee => employee.Id);
+                        _employeeController.GetAllListEmployees();
+                        break;
+                    case 6:
+                        _employeeController.SortEmployeesByLastName();
+                        _employeeController.GetAllListEmployees();
+                        break;
+                    case 7:
+                        _employeeController.SortEmployeesBy(employee => employee.Sex);
+                        _employeeController.GetAllListEmployees();
                         break;
                     case 0:
                         return;

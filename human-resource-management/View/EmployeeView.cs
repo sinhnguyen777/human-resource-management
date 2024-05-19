@@ -13,11 +13,12 @@ namespace human_resource_management.View
         {
             while (true)
             {
-                Console.WriteLine("======= Quản lý nhân viên =======");
+                Console.WriteLine("---------- Quản lý nhân viên ----------");
                 Console.WriteLine("1. Xem danh sách nhân viên");
                 Console.WriteLine("2. Thêm nhân viên mới");
                 Console.WriteLine("3. Xóa nhân viên");
                 Console.WriteLine("4. Sửa thông tin nhân viên");
+                Console.WriteLine("5. Tìm kiếm nhân viên theo tên");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -36,6 +37,9 @@ namespace human_resource_management.View
                     case 3:
                         break;
                     case 4:
+                        break;
+                    case 5:
+                        _employeeController.FilterEmployee();
                         break;
                     case 0:
                         return;

@@ -1,6 +1,7 @@
 using System;
 using human_resource_management.Controller;
 using human_resource_management.Model;
+using human_resource_management.Data;
 
 namespace human_resource_management.View
 {
@@ -8,9 +9,14 @@ namespace human_resource_management.View
     {
         private static EmployeeRepository _employeeRepository = new EmployeeRepository();
         private static EmployeeController _employeeController = new EmployeeController(_employeeRepository);
+        private static EmployeeData _employeeData = new EmployeeData();
 
         public static void ManageEmployees()
         {
+            foreach (EmployeeModel employee in _employeeData.employees)
+            {
+                _employeeRepository.Add(employee);
+            }
             while (true)
             {
                 Console.WriteLine("---------- Quản lý nhân viên ----------");

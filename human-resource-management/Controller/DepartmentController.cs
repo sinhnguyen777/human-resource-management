@@ -7,19 +7,32 @@ namespace human_resource_management.Controller
 {
     public class DepartmentController
     {
-        public static DepartmentData departmentData = new DepartmentData();
-        public static List<DepartmentModel> departments = departmentData.departments;
+        private readonly DepartmentRepository departmentRepository;
 
-        public static void DisplayDepartments()
+        public DepartmentController(DepartmentRepository repository)
         {
+            departmentRepository = repository;
+        }
+
+        public void GetAllDepartments()
+        {
+            List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Danh sách phòng ban:");
 
-            foreach (DepartmentModel department in departments)
+            if (departments.Count == 0)
             {
-                Console.WriteLine($"ID: {department.Id}, Tên: {department.Name} \n");
+                Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+            }
+            else
+            {
+                foreach (var item in departments)
+                {
+                    Console.WriteLine($"ID: {item.Id}, Tên: {item.Name} \n");
+                }
             }
         }
-        public static void AddDepartment()
+
+        public void AddDepartment()
         {
             DepartmentModel department = new DepartmentModel();
 
@@ -29,14 +42,15 @@ namespace human_resource_management.Controller
             Console.Write("Nhập số lượng nhân viên: ");
             department.TeamSize = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            DepartmentController.departments.Add(department);
+            departmentRepository.Add(department);
         }
-        public static void DeleteDepartment()
+
+        public void DeleteDepartment()
         {
             Console.Write("Nhập ID phòng ban cần xóa: ");
             int id = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            DepartmentModel department = DepartmentController.departments.Find(d => d.Id == id);
+            DepartmentModel department = departmentRepository.GetById(id);
 
             if (department == null)
             {
@@ -44,7 +58,7 @@ namespace human_resource_management.Controller
             }
             else
             {
-                DepartmentController.departments.Remove(department);
+                departmentRepository.Delete(department);
                 Console.WriteLine("Xóa phòng ban thành công!");
             }
         }

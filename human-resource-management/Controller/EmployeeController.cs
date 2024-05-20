@@ -23,7 +23,7 @@ namespace human_resource_management.Controller
 
             if (employees.Count == 0)
             {
-                Console.WriteLine("Danh sách rỗng hiện tại chưa có nhân viên nào \n");
+                Console.WriteLine("Danh sách rỗng, hiện tại chưa có nhân viên nào \n");
             }
             else
             {
@@ -81,7 +81,7 @@ namespace human_resource_management.Controller
             Console.Write("Nhập ID nhân viên cần xóa: ");
             int id = int.Parse(Console.ReadLine() ?? string.Empty);
             EmployeeModel employee = employeeRepository.GetById(id);
-            if (id == null)
+            if (employee == null)
             {
                 Console.WriteLine("Không tìm thấy nhân viên có ID: " + id);
             }

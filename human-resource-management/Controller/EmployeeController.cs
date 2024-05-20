@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using human_resource_management.Model;
 using human_resource_management.utils;
+using human_resource_management.Data;
+
 
 namespace human_resource_management.Controller
 {
@@ -29,6 +31,7 @@ namespace human_resource_management.Controller
 
                 foreach (var item in employees)
                 {
+                    string departmentName = item.Department?.Name ?? "Không xác định";
                     Console.WriteLine(
                         $"Mã nhân viên: {item.Id}, " +
                         $"Tên nhân viên: {item.Name}, " +
@@ -36,7 +39,7 @@ namespace human_resource_management.Controller
                         $"Giới tính: {item.Sex.ToVietnameseString()}, " +
                         $"Lương: {item.Salary}VNĐ, " +
                         $"Vị trí: {item.Position}, " +
-                        $"Phòng ban: {item.Department}"
+                        $"Phòng ban: {departmentName}"
                     );
                 }
             }
@@ -59,6 +62,8 @@ namespace human_resource_management.Controller
 
             Console.Write("Vị trí làm việc: ");
             employee.Position = Console.ReadLine() ?? string.Empty;
+
+            employee.Department = InputDepartment();
 
             employeeRepository.Add(employee);
             Console.WriteLine("Thêm nhân viên thành công.");
@@ -190,6 +195,34 @@ namespace human_resource_management.Controller
                         break;
                 }
             }
+        }
+
+        private DepartmentModel InputDepartment()
+        {
+            DepartmentData departmentData = new DepartmentData();
+            Console.WriteLine("Chọn phòng ban:");
+            int index = 1;
+            foreach (var department in departmentData.departments)
+            {
+                Console.WriteLine($"{index}. {department.Name}");
+                index++;
+            }
+            DepartmentModel selectedDepartment = null;
+            bool validChoice = false;
+            while (!validChoice)
+            {
+                Console.Write("Lựa chọn của bạn (nhập số): ");
+                if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departmentData.departments.Count)
+                {
+                    selectedDepartment = departmentData.departments[choice - 1];
+                    validChoice = true;
+                }
+                else
+                {
+                    Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng nhập lại.");
+                }
+            }
+            return selectedDepartment;
         }
     }
 }

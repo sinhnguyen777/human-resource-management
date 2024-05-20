@@ -5,16 +5,16 @@ namespace human_resource_management.Data
     public class EmployeeData
     {
         public List<EmployeeModel> employees = new List<EmployeeModel> {
-            new EmployeeModel() {Name = "Nguyen Hoang Dat", Birthday = new DateTime(2003, 06, 16),
-            Sex = GenderEnum.Male, Salary = "3000000", Position = "IT"},
-            new EmployeeModel() {Name = "Nguyen Tan Sinh", Birthday = new DateTime(2001, 02, 04),
-            Sex = GenderEnum.Male, Salary = "7000000", Position = "Web"},
-            new EmployeeModel() {Name = "Tran Ly Thuy Tien", Birthday = new DateTime(2001, 07, 11),
-            Sex = GenderEnum.Female, Salary = "5000000", Position = "IT"},
-            new EmployeeModel() {Name = "Mai Thanh Phat", Birthday = new DateTime(1999, 03, 19),
-            Sex = GenderEnum.Male, Salary = "10000000", Position = "DevOps"},
-            new EmployeeModel() {Name = "Le Tien Dung", Birthday = new DateTime(2003, 08, 12),
-            Sex = GenderEnum.Other, Salary = "8000000", Position = "Seo"},
+            new EmployeeModel() {Name = "Nguyễn Hoàng Đạt", Birthday = new DateTime(2003, 06, 16),
+            Sex = GenderEnum.Male, Salary = "3.000.000", Position = "IT"},
+            new EmployeeModel() {Name = "Nguyễn Tấn Sinh", Birthday = new DateTime(2001, 02, 04),
+            Sex = GenderEnum.Male, Salary = "7.000.000", Position = "Web"},
+            new EmployeeModel() {Name = "Trần Lý Thủy Tiên", Birthday = new DateTime(2001, 07, 11),
+            Sex = GenderEnum.Female, Salary = "5.000.000", Position = "IT"},
+            new EmployeeModel() {Name = "Mai Thành Phát", Birthday = new DateTime(1999, 03, 19),
+            Sex = GenderEnum.Male, Salary = "10.000.000", Position = "DevOps"},
+            new EmployeeModel() {Name = "Lê Tiến Dũng", Birthday = new DateTime(2003, 08, 12),
+            Sex = GenderEnum.Other, Salary = "8.000.000", Position = "Seo"},
          };
     }
 }

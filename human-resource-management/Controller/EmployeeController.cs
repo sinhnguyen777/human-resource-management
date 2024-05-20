@@ -58,18 +58,18 @@ namespace human_resource_management.Controller
             EmployeeModel employee = new EmployeeModel();
 
             Console.Write("Nhập tên nhân viên: ");
-            employee.Name = Console.ReadLine() ?? string.Empty;
+            employee.Name = InputValidator.stringValidate();
 
             employee.Birthday = DateValidator.GetValidDateOfBirth();
 
             employee.Sex = InputGender();
 
             Console.Write("Nhập lương: ");
-            int salaryInput = int.Parse(Console.ReadLine() ?? string.Empty);
+            int salaryInput = int.Parse(InputValidator.intValidate());
             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
 
             Console.Write("Vị trí làm việc: ");
-            employee.Position = Console.ReadLine() ?? string.Empty;
+            employee.Position = InputValidator.stringValidate();
 
             employee.Department = InputDepartment();
 
@@ -79,7 +79,7 @@ namespace human_resource_management.Controller
         public void DeleteEmployee()
         {
             Console.Write("Nhập ID nhân viên cần xóa: ");
-            int id = int.Parse(Console.ReadLine() ?? string.Empty);
+            int id = int.Parse(InputValidator.intValidate());
             EmployeeModel employee = employeeRepository.GetById(id);
             if (id == null)
             {
@@ -139,7 +139,7 @@ namespace human_resource_management.Controller
         public void FilterEmployee()
         {
             Console.Write("Nhập tên nhân viên cần tìm: ");
-            string name = Console.ReadLine() ?? string.Empty;
+            string name = InputValidator.stringValidate();
             Console.WriteLine();
             List<EmployeeModel> employees = employeeRepository.GetAll();
 
@@ -204,7 +204,7 @@ namespace human_resource_management.Controller
                 Console.WriteLine("2. Nữ");
                 Console.WriteLine("3. Giới tính khác");
                 Console.Write("Lựa chọn của bạn: ");
-                int choice = int.Parse(Console.ReadLine() ?? string.Empty);
+                int choice = int.Parse(InputValidator.intValidate());
 
                 switch (choice)
                 {

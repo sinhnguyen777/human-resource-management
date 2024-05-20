@@ -29,6 +29,7 @@ namespace human_resource_management.View
                 Console.WriteLine("6. Sắp xếp nhân viên theo mã nhân viên");
                 Console.WriteLine("7. Sắp xếp nhân viên theo tên");
                 Console.WriteLine("8. Sắp xếp nhân viên theo giới tính");
+                Console.WriteLine("9. Sắp xếp nhân viên theo vị trí");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -62,6 +63,10 @@ namespace human_resource_management.View
                         break;
                     case 8:
                         _employeeController.SortEmployeesBy(employee => employee.Sex);
+                        _employeeController.GetAllListEmployees();
+                        break;
+                    case 9:
+                        _employeeController.SortEmployeesBy(employee => employee.Position);
                         _employeeController.GetAllListEmployees();
                         break;
                     case 0:

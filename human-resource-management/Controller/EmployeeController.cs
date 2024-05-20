@@ -34,7 +34,7 @@ namespace human_resource_management.Controller
                         $"Tên nhân viên: {item.Name}, " +
                         $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
                         $"Giới tính: {item.Sex.ToVietnameseString()}, " +
-                        $"Lương: {item.Salary}, " +
+                        $"Lương: {item.Salary}VNĐ, " +
                         $"Vị trí: {item.Position}, " +
                         $"Phòng ban: {item.Department}"
                     );

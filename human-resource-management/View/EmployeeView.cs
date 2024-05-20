@@ -19,6 +19,7 @@ namespace human_resource_management.View
             }
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("---------- Quản lý nhân viên ----------");
                 Console.WriteLine("1. Xem danh sách nhân viên");
                 Console.WriteLine("2. Thêm nhân viên mới");
@@ -44,6 +45,7 @@ namespace human_resource_management.View
                         _employeeController.AddEmployee();
                         break;
                     case 3:
+                        _employeeController.DeleteEmployee();
                         break;
                     case 4:
                         break;

@@ -29,18 +29,26 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine("Danh sách nhân viên: \n");
 
+                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                "Mã nhân viên",
+                "Tên nhân viên",
+                "Ngày sinh",
+                "Giới tính",
+                "Lương",
+                "Vị trí",
+                "Phòng ban");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
                     string departmentName = item.Department?.Name ?? "Không xác định";
-                    Console.WriteLine(
-                        $"Mã nhân viên: {item.Id}, " +
-                        $"Tên nhân viên: {item.Name}, " +
-                        $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
-                        $"Giới tính: {item.Sex.ToVietnameseString()}, " +
-                        $"Lương: {item.Salary}VNĐ, " +
-                        $"Vị trí: {item.Position}, " +
-                        $"Phòng ban: {departmentName}"
-                    );
+                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                    item.Id,
+                    item.Name,
+                    item.Birthday.ToShortDateString(),
+                    item.Sex.ToVietnameseString(),
+                    $"{item.Salary} VNĐ",
+                    item.Position,
+                    departmentName);
                 }
             }
         }
@@ -68,17 +76,32 @@ namespace human_resource_management.Controller
             employeeRepository.Add(employee);
             Console.WriteLine("Thêm nhân viên thành công.");
         }
+        public void DeleteEmployee()
+        {
+            Console.Write("Nhập ID nhân viên cần xóa: ");
+            int id = int.Parse(Console.ReadLine() ?? string.Empty);
+            EmployeeModel employee = employeeRepository.GetById(id);
+            if (id == null)
+            {
+                Console.WriteLine("Không tìm thấy nhân viên có ID: " + id);
+            }
+            else
+            {
+                employeeRepository.Delete(employee);
+                Console.WriteLine("Xóa nhân viên thành công.");
+            }
+
+        }
 
         public void UpdateEmployee(EmployeeModel employee)
         {
             employeeRepository.Update(employee);
             Console.WriteLine("Cập nhật nhân viên thành công.");
         }
-
         public void DeleteEmployee(EmployeeModel employee)
         {
             employeeRepository.Delete(employee);
-            Console.WriteLine("Employee deleted successfully.");
+            Console.WriteLine("Xóa nhân viên thành công.");
         }
 
         public void SortEmployeesBy(Func<EmployeeModel, IComparable> keySelector)
@@ -115,8 +138,9 @@ namespace human_resource_management.Controller
 
         public void FilterEmployee()
         {
-            Console.Write("Nhập tên nhân viên cần cập nhật: ");
+            Console.Write("Nhập tên nhân viên cần tìm: ");
             string name = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine();
             List<EmployeeModel> employees = employeeRepository.GetAll();
 
             employees.Sort((x, y) => string.Compare(x.Name, y.Name));

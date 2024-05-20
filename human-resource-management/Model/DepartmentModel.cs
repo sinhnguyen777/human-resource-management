@@ -7,7 +7,7 @@ namespace human_resource_management.Model
         public int Id { get; set; }
         public string? Name { get; set; }
         public int TeamSize { get; set; }
-        public List<EmployeeModel>? Employees { get; set; }
-        public EmployeeModel? Manager { get; set; }
+        public List<int>? Employees { get; set; }
+        public int? Manager { get; set; }
     }
 }

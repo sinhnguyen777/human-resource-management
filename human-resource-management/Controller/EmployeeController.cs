@@ -63,19 +63,34 @@ namespace human_resource_management.Controller
             employeeRepository.Add(employee);
             Console.WriteLine("Thêm nhân viên thành công.");
         }
+       public void DeleteEmployee()
+        {
+            Console.Write("Nhập ID nhân viên cần xóa: ");
+            int id = int.Parse(Console.ReadLine() ?? string.Empty);
+            EmployeeModel employee = employeeRepository.GetById(id);
+            if  (id == null)
+            {
+                Console.WriteLine("Không tìm thấy nhân viên có ID: " + id);
+            }
+            else
+            {
+                employeeRepository.Delete(employee);
+                Console.WriteLine("Xóa nhân viên thành công.");
+            }
+
+        }
 
         public void UpdateEmployee(EmployeeModel employee)
         {
             employeeRepository.Update(employee);
             Console.WriteLine("Cập nhật nhân viên thành công.");
         }
-
         public void DeleteEmployee(EmployeeModel employee)
         {
             employeeRepository.Delete(employee);
-            Console.WriteLine("Employee deleted successfully.");
-        }
-
+            Console.WriteLine("Xóa nhân viên thành công.");
+          }
+        
         public void SortEmployeesBy(Func<EmployeeModel, IComparable> keySelector)
         {
             List<EmployeeModel> employees = employeeRepository.GetAll();

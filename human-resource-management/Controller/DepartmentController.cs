@@ -19,5 +19,17 @@ namespace human_resource_management.Controller
                 Console.WriteLine($"ID: {department.Id}, Tên: {department.Name} \n");
             }
         }
+     public static void AddDepartment()
+    {
+        DepartmentModel department = new DepartmentModel();
+
+        Console.Write("Nhập tên phòng ban: ");
+        department.Name = Console.ReadLine() ?? string.Empty;
+
+        Console.Write("Nhập số lượng nhân viên: ");
+        department.TeamSize = int.Parse(Console.ReadLine() ?? string.Empty);
+
+        DepartmentController.departments.Add(department);
+    }
     }
 }

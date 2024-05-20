@@ -44,6 +44,7 @@ namespace human_resource_management.View
                         _employeeController.AddEmployee();
                         break;
                     case 3:
+                        _employeeController.DeleteEmployee();
                         break;
                     case 4:
                         break;

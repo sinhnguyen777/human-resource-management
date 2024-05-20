@@ -27,6 +27,9 @@ namespace human_resource_management.View
                     case "1":
                         DepartmentController.DisplayDepartments();
                         break;
+                    case "2":
+                        DepartmentController.AddDepartment();
+                        break;
                     case "0":
                         return;
                     default:

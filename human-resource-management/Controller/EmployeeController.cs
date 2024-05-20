@@ -27,17 +27,25 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine("Danh sách nhân viên: \n");
 
+                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                "Mã nhân viên",
+                "Tên nhân viên",
+                "Ngày sinh",
+                "Giới tính",
+                "Lương",
+                "Vị trí",
+                "Phòng ban");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
-                    Console.WriteLine(
-                        $"Mã nhân viên: {item.Id}, " +
-                        $"Tên nhân viên: {item.Name}, " +
-                        $"Ngày sinh: {item.Birthday.ToShortDateString()}, " +
-                        $"Giới tính: {item.Sex.ToVietnameseString()}, " +
-                        $"Lương: {item.Salary}VNĐ, " +
-                        $"Vị trí: {item.Position}, " +
-                        $"Phòng ban: {item.Department}"
-                    );
+                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                    item.Id,
+                    item.Name,
+                    item.Birthday.ToShortDateString(),
+                    item.Sex.ToVietnameseString(),
+                    $"{item.Salary} VNĐ",
+                    item.Position,
+                    item.Department);
                 }
             }
         }
@@ -110,8 +118,9 @@ namespace human_resource_management.Controller
 
         public void FilterEmployee()
         {
-            Console.Write("Nhập tên nhân viên cần cập nhật: ");
+            Console.Write("Nhập tên nhân viên cần tìm: ");
             string name = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine();
             List<EmployeeModel> employees = employeeRepository.GetAll();
 
             employees.Sort((x, y) => string.Compare(x.Name, y.Name));

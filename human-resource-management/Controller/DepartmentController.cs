@@ -19,17 +19,35 @@ namespace human_resource_management.Controller
                 Console.WriteLine($"ID: {department.Id}, Tên: {department.Name} \n");
             }
         }
-     public static void AddDepartment()
-    {
-        DepartmentModel department = new DepartmentModel();
+        public static void AddDepartment()
+        {
+            DepartmentModel department = new DepartmentModel();
 
-        Console.Write("Nhập tên phòng ban: ");
-        department.Name = Console.ReadLine() ?? string.Empty;
+            Console.Write("Nhập tên phòng ban: ");
+            department.Name = Console.ReadLine() ?? string.Empty;
 
-        Console.Write("Nhập số lượng nhân viên: ");
-        department.TeamSize = int.Parse(Console.ReadLine() ?? string.Empty);
+            Console.Write("Nhập số lượng nhân viên: ");
+            department.TeamSize = int.Parse(Console.ReadLine() ?? string.Empty);
 
-        DepartmentController.departments.Add(department);
+            DepartmentController.departments.Add(department);
+        }
+        public static void DeleteDepartment()
+        {
+            Console.Write("Nhập ID phòng ban cần xóa: ");
+            int id = int.Parse(Console.ReadLine() ?? string.Empty);
+
+            DepartmentModel department = DepartmentController.departments.Find(d => d.Id == id);
+
+            if (department == null)
+            {
+                Console.WriteLine("Không tìm thấy phòng ban cần xóa!");
+            }
+            else
+            {
+                DepartmentController.departments.Remove(department);
+                Console.WriteLine("Xóa phòng ban thành công!");
+            }
+        }
     }
-    }
+
 }

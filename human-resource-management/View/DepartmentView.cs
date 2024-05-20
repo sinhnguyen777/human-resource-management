@@ -30,6 +30,9 @@ namespace human_resource_management.View
                     case "2":
                         DepartmentController.AddDepartment();
                         break;
+                    case "3":
+                        DepartmentController.DeleteDepartment();
+                        break;    
                     case "0":
                         return;
                     default:

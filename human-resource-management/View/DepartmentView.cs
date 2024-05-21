@@ -9,6 +9,7 @@ namespace human_resource_management.View
         {
             while (true)
             {
+                Console.WriteLine();
                 Console.WriteLine("======= Quản lý phòng ban =======");
                 Console.WriteLine("1. Xem danh sách phòng ban");
                 Console.WriteLine("2. Thêm phòng ban mới");
@@ -32,7 +33,7 @@ namespace human_resource_management.View
                         break;
                     case "3":
                         DepartmentController.DeleteDepartment();
-                        break;    
+                        break;
                     case "0":
                         return;
                     default:

@@ -7,7 +7,7 @@ namespace human_resource_management.View
     public class DepartmentView
     {
         public static DepartmentRepository _departmentRepository = new DepartmentRepository();
-        public static DepartmentController _departmentController = new DepartmentController(_departmentRepository);
+        private static DepartmentController _departmentController = new DepartmentController(_departmentRepository);
         public static void ManageDepartments()
         {
             while (true)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using human_resource_management.Data;
 using human_resource_management.Model;
 using human_resource_management.utils;
 
@@ -9,7 +8,6 @@ namespace human_resource_management.Controller
     public class DepartmentController
     {
         private readonly DepartmentRepository departmentRepository;
-        private readonly DepartmentData departmentData = new DepartmentData();
         public List<DepartmentModel> GetAllDepartmentsList()
         {
             return departmentRepository.GetAll();
@@ -17,11 +15,6 @@ namespace human_resource_management.Controller
 
         public DepartmentController(DepartmentRepository repository)
         {
-            foreach (var item in departmentData.departments)
-            {
-                repository.Add(item);
-            }
-
             departmentRepository = repository;
         }
 

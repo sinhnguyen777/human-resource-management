@@ -1,23 +1,16 @@
 using System;
 using human_resource_management.Controller;
-using human_resource_management.Data;
 using human_resource_management.Model;
 namespace human_resource_management.View
 {
     public class EmployeeView
     {
-        private static EmployeeRepository _employeeRepository = new EmployeeRepository();
+        public static EmployeeRepository _employeeRepository = new EmployeeRepository();
         private static DepartmentRepository _departmentRepository = DepartmentView._departmentRepository;
         private static EmployeeController _employeeController = new EmployeeController(_employeeRepository, _departmentRepository);
 
-        private static EmployeeData _employeesData = new EmployeeData();
-
         public static void ManageEmployees()
         {
-            foreach (EmployeeModel employee in _employeesData.employees)
-            {
-                _employeeRepository.Add(employee);
-            }
 
             while (true)
             {

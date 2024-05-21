@@ -8,7 +8,7 @@ namespace human_resource_management.View
     public class DepartmentView
     {
         public static readonly DepartmentRepository _departmentRepository = new DepartmentRepository();
-        public static readonly EmployeeRepository _employeeRepository = new EmployeeRepository();
+        public static readonly EmployeeRepository _employeeRepository = EmployeeView._employeeRepository;
         public static readonly DepartmentController _departmentController = new DepartmentController(_departmentRepository, _employeeRepository);
 
 

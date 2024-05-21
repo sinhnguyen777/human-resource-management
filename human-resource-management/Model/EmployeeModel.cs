@@ -77,5 +77,12 @@ namespace human_resource_management.Model
         {
             return employees;
         }
+
+        public void ClearAll()
+        {
+            employees.Clear();
+            nextId = 1;
+        }
+
     }
 }

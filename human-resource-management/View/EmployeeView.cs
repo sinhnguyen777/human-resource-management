@@ -28,6 +28,7 @@ namespace human_resource_management.View
                 Console.WriteLine("8. Sắp xếp nhân viên theo giới tính");
                 Console.WriteLine("9. Sắp xếp nhân viên theo vị trí");
                 Console.WriteLine("10. Xuất file dữ liệu nhân viên (ghi file):");
+                Console.WriteLine("11. Nhập file dữ liệu nhân viên (đọc file):");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -69,6 +70,9 @@ namespace human_resource_management.View
                         break;
                     case 10:
                         _employeeController.ExportDataEmployeesToFile();
+                        break;
+                    case 11:
+                        _employeeController.ImportDataEmpoyeesToFile();
                         break;
                     case 0:
                         return;

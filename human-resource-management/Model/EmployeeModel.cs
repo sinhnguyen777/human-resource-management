@@ -19,7 +19,7 @@ namespace human_resource_management.Model
         public GenderEnum Sex { get; set; }
         public string? Salary { get; set; }
         public string? Position { get; set; }
-        public DepartmentModel? Department { get; set; }
+        public int? IdDepartment { get; set; }
     }
 
     public class EmployeeRepository : BaseRepository.Repository<EmployeeModel>
@@ -31,6 +31,9 @@ namespace human_resource_management.Model
         {
             entity.Id = nextId++;
             employees.Add(entity);
+
+            // Debugging: In ra thông báo khi thêm nhân viên
+            Console.WriteLine($"Đã thêm nhân viên: ID: {entity.Id}, Name: {entity.Name}");
         }
 
         public override void Update(EmployeeModel entity)
@@ -43,6 +46,7 @@ namespace human_resource_management.Model
                 existingEmployee.Sex = entity.Sex;
                 existingEmployee.Salary = entity.Salary;
                 existingEmployee.Position = entity.Position;
+                existingEmployee.IdDepartment = entity.IdDepartment;
             }
             else
             {
@@ -66,14 +70,7 @@ namespace human_resource_management.Model
         public override EmployeeModel GetById(int id)
         {
             EmployeeModel? existingEmployee = employees.Find(item => item.Id == id);
-            if (existingEmployee != null)
-            {
-                return existingEmployee;
-            }
-            else
-            {
-                throw new ArgumentException("Employee not found");
-            }
+            return existingEmployee;
         }
 
         public override List<EmployeeModel> GetAll()

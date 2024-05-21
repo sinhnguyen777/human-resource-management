@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Text;
 using human_resource_management.View;
+using human_resource_management.Data;
+using human_resource_management.Model;
 
 namespace human_resource_management
 {
     internal class Program
     {
+        private static EmployeeData employeeData = new EmployeeData();
+        private static DepartmentData departmentData = new DepartmentData();
         public static void Main(string[] args)
         {
-            
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
+            foreach (EmployeeModel employee in employeeData.employees)
+            {
+                EmployeeView._employeeRepository.Add(employee);
+            }
+            foreach (DepartmentModel department in departmentData.departments)
+            {
+                DepartmentView._departmentRepository.Add(department);
+            }
 
             while (true)
             {

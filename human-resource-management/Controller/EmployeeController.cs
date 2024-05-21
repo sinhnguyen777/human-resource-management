@@ -4,6 +4,7 @@ using System.Globalization;
 using human_resource_management.Model;
 using human_resource_management.utils;
 using human_resource_management.Data;
+using System.Text;
 
 
 namespace human_resource_management.Controller
@@ -259,6 +260,51 @@ namespace human_resource_management.Controller
                 }
             }
             return selectedDepartment;
+        }
+
+        public void ExportDataEmployeesToFile()
+        {
+            Console.Write("Nhập tên file để xuất dữ liệu (ví dụ: employees.txt): ");
+            string fileName = InputValidator.stringValidate();
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                fileName = "employees.txt";
+            }
+
+            string userDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = Path.Combine(userDocumentsPath, fileName);
+
+            List<EmployeeModel> employees = employeeRepository.GetAll();
+
+            using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.Unicode))
+            {
+                writer.WriteLine("Danh sách nhân viên:");
+
+                writer.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                "Mã nhân viên",
+                "Tên nhân viên",
+                "Ngày sinh",
+                "Giới tính",
+                "Lương",
+                "Vị trí",
+                "Phòng ban");
+                writer.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
+                foreach (var item in employees)
+                {
+                    string departmentName = item.Department?.Name ?? "Không xác định";
+                    writer.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+                    item.Id,
+                    item.Name,
+                    item.Birthday.ToShortDateString(),
+                    item.Sex.ToVietnameseString(),
+                    $"{item.Salary} VNĐ",
+                    item.Position,
+                    departmentName);
+                }
+            }
+
+            Console.WriteLine($"Dữ liệu nhân viên đã được xuất ra file: {filePath}");
         }
     }
 }

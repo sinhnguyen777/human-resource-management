@@ -1,5 +1,6 @@
 using System;
 using human_resource_management.Controller;
+using human_resource_management.Data;
 using human_resource_management.Model;
 namespace human_resource_management.View
 {
@@ -9,9 +10,15 @@ namespace human_resource_management.View
         private static DepartmentRepository _departmentRepository = DepartmentView._departmentRepository;
         private static EmployeeController _employeeController = new EmployeeController(_employeeRepository, _departmentRepository);
 
+        private static EmployeeData _employeesData = new EmployeeData();
 
         public static void ManageEmployees()
         {
+            foreach (EmployeeModel employee in _employeesData.employees)
+            {
+                _employeeRepository.Add(employee);
+            }
+
             while (true)
             {
                 Console.WriteLine();
@@ -25,6 +32,7 @@ namespace human_resource_management.View
                 Console.WriteLine("7. Sắp xếp nhân viên theo tên");
                 Console.WriteLine("8. Sắp xếp nhân viên theo giới tính");
                 Console.WriteLine("9. Sắp xếp nhân viên theo vị trí");
+                Console.WriteLine("10. Xuất file dữ liệu nhân viên (ghi file):");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -63,6 +71,9 @@ namespace human_resource_management.View
                     case 9:
                         _employeeController.SortEmployeesBy(employee => employee.Position);
                         _employeeController.GetAllListEmployees();
+                        break;
+                    case 10:
+                        _employeeController.ExportDataEmployeesToFile();
                         break;
                     case 0:
                         return;

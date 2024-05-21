@@ -9,20 +9,22 @@ namespace human_resource_management.Controller
     public class DepartmentController
     {
         private readonly DepartmentRepository departmentRepository;
+        private readonly EmployeeRepository employeeRepository;
         private readonly DepartmentData departmentData = new DepartmentData();
         public List<DepartmentModel> GetAllDepartmentsList()
         {
             return departmentRepository.GetAll();
         }
 
-        public DepartmentController(DepartmentRepository repository)
+        public DepartmentController(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository)
         {
+            this.departmentRepository = departmentRepository;
+            this.employeeRepository = employeeRepository;
+
             foreach (var item in departmentData.departments)
             {
-                repository.Add(item);
+                departmentRepository.Add(item);
             }
-
-            departmentRepository = repository;
         }
 
         public void GetAllDepartments()
@@ -92,6 +94,62 @@ namespace human_resource_management.Controller
                 Console.WriteLine("Xóa phòng ban thành công!");
             }
         }
-    }
 
+        public void GetEmployeesByDepartment()
+        {
+            List<DepartmentModel> departments = departmentRepository.GetAll();
+
+            Console.WriteLine("Chọn phòng ban:");
+            for (int i = 0; i < departments.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {departments[i].Name}");
+            }
+
+            Console.Write("Lựa chọn của bạn (nhập số): ");
+            int choice;
+            while (!int.TryParse(Console.ReadLine(), out choice) || choice <= 0 || choice > departments.Count)
+            {
+                Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng nhập lại.");
+                Console.Write("Lựa chọn của bạn (nhập số): ");
+            }
+
+            DepartmentModel selectedDepartment = departments[choice - 1];
+
+            // Lấy danh sách nhân viên từ EmployeeRepository
+            List<EmployeeModel> employees = employeeRepository.GetAll();
+
+            // Tạo danh sách để lưu trữ nhân viên của phòng ban đã chọn
+            List<EmployeeModel> employeesInDepartment = employees
+                .Where(e => e.IdDepartment == selectedDepartment.Id)
+                .ToList();
+
+            if (employeesInDepartment.Count == 0)
+            {
+                Console.WriteLine($"Phòng ban '{selectedDepartment.Name}' hiện tại chưa có nhân viên nào \n");
+            }
+            else
+            {
+                Console.WriteLine($"Danh sách nhân viên trong phòng ban '{selectedDepartment.Name}': \n");
+
+                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
+                    "Mã nhân viên",
+                    "Tên nhân viên",
+                    "Ngày sinh",
+                    "Giới tính",
+                    "Lương",
+                    "Vị trí");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
+                foreach (var item in employeesInDepartment)
+                {
+                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
+                        item.Id,
+                        item.Name,
+                        item.Birthday.ToShortDateString(),
+                        item.Sex.ToVietnameseString(),
+                        $"{item.Salary} VNĐ",
+                        item.Position);
+                }
+            }
+        }
+    }
 }

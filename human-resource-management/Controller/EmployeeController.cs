@@ -12,21 +12,21 @@ namespace human_resource_management.Controller
     {
         private readonly EmployeeRepository employeeRepository;
         private readonly DepartmentRepository departmentRepository;
-        private readonly List<DepartmentModel> departments;
         private readonly EmployeeData employeeData = new EmployeeData();
         public EmployeeController(EmployeeRepository repository, DepartmentRepository departmentRepository)
-        {
-            this.employeeRepository = repository;
-            this.departmentRepository = departmentRepository;
-        }
-        public EmployeeController(EmployeeRepository repository)
         {
             foreach (EmployeeModel employee in employeeData.employees)
             {
                 repository.Add(employee);
             }
-
             this.employeeRepository = repository;
+            this.departmentRepository = departmentRepository;
+        }
+
+        public void SomeMethod()
+        {
+            var departmentController = new DepartmentController(new DepartmentRepository(), employeeRepository);
+            departmentController.GetEmployeesByDepartment();
         }
 
         public void GetAllListEmployees()
@@ -52,7 +52,7 @@ namespace human_resource_management.Controller
                 Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
-                    string departmentName = item.Department?.Name ?? "Không xác định";
+                    string departmentName = departmentRepository.GetDepartmentNameById(item.IdDepartment ?? 0);
                     Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
                     item.Id,
                     item.Name,
@@ -83,11 +83,25 @@ namespace human_resource_management.Controller
             Console.Write("Vị trí làm việc: ");
             employee.Position = InputValidator.stringValidate();
 
-            employee.Department = InputDepartment();
+            int departmentId = InputDepartment();
+            employee.IdDepartment = departmentId;
 
             employeeRepository.Add(employee);
+            int newEmployeeId = employee.Id;
+
+            DepartmentModel department = departmentRepository.GetById(departmentId);
+            if (department != null)
+            {
+                if (department.ListEmployees == null)
+                {
+                    department.ListEmployees = new List<int>();
+                }
+                department.ListEmployees.Add(newEmployeeId);
+                departmentRepository.Update(department);
+            }
             Console.WriteLine("Thêm nhân viên thành công.");
         }
+
         public void DeleteEmployee()
         {
             Console.Write("Nhập ID nhân viên cần xóa: ");
@@ -173,7 +187,7 @@ namespace human_resource_management.Controller
                         $"Giới tính: {employees[index].Sex.ToVietnameseString()}, " +
                         $"Lương: {employees[index].Salary}, " +
                         $"Vị trí: {employees[index].Position}, " +
-                        $"Phòng ban: {employees[index].Department}"
+                        $"Phòng ban: {employees[index].IdDepartment}"
                     );
 
             }
@@ -233,7 +247,7 @@ namespace human_resource_management.Controller
             }
         }
 
-        private DepartmentModel InputDepartment()
+        private int InputDepartment()
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Chọn phòng ban:");
@@ -243,14 +257,14 @@ namespace human_resource_management.Controller
                 Console.WriteLine($"{index}. {department.Name}");
                 index++;
             }
-            DepartmentModel selectedDepartment = null;
+            int selectedDepartment = -1;
             bool validChoice = false;
             while (!validChoice)
             {
                 Console.Write("Lựa chọn của bạn (nhập số): ");
                 if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departments.Count)
                 {
-                    selectedDepartment = departments[choice - 1];
+                    selectedDepartment = departments[choice - 1].Id;
                     validChoice = true;
                 }
                 else

@@ -52,6 +52,7 @@ namespace human_resource_management.Model
                 existingDepartment.Name = entity.Name;
                 existingDepartment.TeamSize = entity.TeamSize;
                 existingDepartment.IdManager = entity.IdManager;
+                existingDepartment.ListEmployees = entity.ListEmployees;
             }
             else
             {
@@ -71,6 +72,15 @@ namespace human_resource_management.Model
             {
                 throw new ArgumentException("Department not found");
             }
+        }
+
+        public string GetDepartmentNameById(int? id)
+        {
+            if (id == null)
+                return "Không xác định";
+
+            var department = GetAll().FirstOrDefault(d => d.Id == id);
+            return department?.Name ?? "Không xác định";
         }
     }
 }

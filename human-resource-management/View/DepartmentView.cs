@@ -1,4 +1,5 @@
 using System;
+using human_resource_management.repositories;
 using human_resource_management.Controller;
 using human_resource_management.Model;
 
@@ -6,8 +7,11 @@ namespace human_resource_management.View
 {
     public class DepartmentView
     {
-        public static DepartmentRepository _departmentRepository = new DepartmentRepository();
-        public static DepartmentController _departmentController = new DepartmentController(_departmentRepository);
+        public static readonly DepartmentRepository _departmentRepository = new DepartmentRepository();
+        public static readonly EmployeeRepository _employeeRepository = new EmployeeRepository();
+        public static readonly DepartmentController _departmentController = new DepartmentController(_departmentRepository, _employeeRepository);
+
+
         public static void ManageDepartments()
         {
             while (true)
@@ -20,6 +24,7 @@ namespace human_resource_management.View
                 Console.WriteLine("4. Sửa thông tin phòng ban");
                 Console.WriteLine("5. Thêm nhân viên vào phòng ban");
                 Console.WriteLine("6. Chỉ định trưởng phòng");
+                Console.WriteLine("7. Xem danh sách nhân viên theo phòng ban");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -36,6 +41,9 @@ namespace human_resource_management.View
                         break;
                     case "3":
                         _departmentController.DeleteDepartment();
+                        break;
+                    case "7":
+                        _departmentController.GetEmployeesByDepartment();
                         break;
                     case "0":
                         return;

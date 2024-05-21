@@ -6,7 +6,9 @@ namespace human_resource_management.View
     public class EmployeeView
     {
         private static EmployeeRepository _employeeRepository = new EmployeeRepository();
-        private static EmployeeController _employeeController = new EmployeeController(_employeeRepository);
+        private static DepartmentRepository _departmentRepository = DepartmentView._departmentRepository;
+        private static EmployeeController _employeeController = new EmployeeController(_employeeRepository, _departmentRepository);
+
 
         public static void ManageEmployees()
         {

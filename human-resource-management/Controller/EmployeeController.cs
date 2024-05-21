@@ -11,7 +11,14 @@ namespace human_resource_management.Controller
     public class EmployeeController
     {
         private readonly EmployeeRepository employeeRepository;
+        private readonly DepartmentRepository departmentRepository;
+        private readonly List<DepartmentModel> departments;
         private readonly EmployeeData employeeData = new EmployeeData();
+        public EmployeeController(EmployeeRepository repository, DepartmentRepository departmentRepository)
+        {
+            this.employeeRepository = repository;
+            this.departmentRepository = departmentRepository;
+        }
         public EmployeeController(EmployeeRepository repository)
         {
             foreach (EmployeeModel employee in employeeData.employees)
@@ -228,10 +235,10 @@ namespace human_resource_management.Controller
 
         private DepartmentModel InputDepartment()
         {
-            DepartmentData departmentData = new DepartmentData();
+            List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Chọn phòng ban:");
             int index = 1;
-            foreach (var department in departmentData.departments)
+            foreach (var department in departments)
             {
                 Console.WriteLine($"{index}. {department.Name}");
                 index++;
@@ -241,9 +248,9 @@ namespace human_resource_management.Controller
             while (!validChoice)
             {
                 Console.Write("Lựa chọn của bạn (nhập số): ");
-                if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departmentData.departments.Count)
+                if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departments.Count)
                 {
-                    selectedDepartment = departmentData.departments[choice - 1];
+                    selectedDepartment = departments[choice - 1];
                     validChoice = true;
                 }
                 else

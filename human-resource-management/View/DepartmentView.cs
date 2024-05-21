@@ -1,6 +1,5 @@
 using System;
 using human_resource_management.Controller;
-using human_resource_management.Data;
 using human_resource_management.Model;
 
 namespace human_resource_management.View
@@ -9,13 +8,8 @@ namespace human_resource_management.View
     {
         public static DepartmentRepository _departmentRepository = new DepartmentRepository();
         public static DepartmentController _departmentController = new DepartmentController(_departmentRepository);
-        public static DepartmentData _departmentData = new DepartmentData();
         public static void ManageDepartments()
         {
-            foreach (var item in _departmentData.departments)
-            {
-                _departmentRepository.Add(item);
-            }
             while (true)
             {
                 Console.WriteLine();

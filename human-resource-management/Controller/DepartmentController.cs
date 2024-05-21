@@ -55,7 +55,7 @@ namespace human_resource_management.Controller
         {
             DepartmentModel department = new DepartmentModel();
 
-            Console.Write("Nhập mã nhân viên: ");
+            Console.Write("Nhập mã phòng ban: ");
             department.DepartmentCode = Console.ReadLine();
 
             Console.Write("Nhập tên phòng ban: ");

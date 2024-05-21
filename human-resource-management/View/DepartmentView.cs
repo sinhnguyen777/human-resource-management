@@ -18,7 +18,8 @@ namespace human_resource_management.View
             }
             while (true)
             {
-                Console.WriteLine("======= Quản lý phòng ban =======");
+                Console.WriteLine();
+                Console.WriteLine("---------- Quản lý phòng ban ----------");
                 Console.WriteLine("1. Xem danh sách phòng ban");
                 Console.WriteLine("2. Thêm phòng ban mới");
                 Console.WriteLine("3. Xóa phòng ban");

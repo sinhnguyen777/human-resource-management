@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using human_resource_management.Model;
-using human_resource_management.Data;
+using human_resource_management.utils;
 
 namespace human_resource_management.Controller
 {
@@ -18,6 +18,12 @@ namespace human_resource_management.Controller
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Danh sách phòng ban:");
+            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
+            "Mã phòng ban",
+            "Tên phòng ban",
+            "Số Nhân viên tối đa",
+            "Số Nhân viên hiện có");
+            Console.WriteLine("---------------------------------------------------------------------------------------------------");
 
             if (departments.Count == 0)
             {
@@ -25,10 +31,16 @@ namespace human_resource_management.Controller
             }
             else
             {
-                foreach (var item in departments)
+                foreach (DepartmentModel item in departments)
                 {
-                    Console.WriteLine($"ID: {item.Id}, Tên: {item.Name} \n");
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
+                        item.Id,
+                        item.Name,
+                        item.TeamSize,
+                        item.ListEmployees != null ? item.ListEmployees.Count() : 0
+                    );
                 }
+
             }
         }
 
@@ -36,11 +48,18 @@ namespace human_resource_management.Controller
         {
             DepartmentModel department = new DepartmentModel();
 
+            Console.Write("Nhập mã nhân viên: ");
+            department.DepartmentCode = Console.ReadLine();
+
             Console.Write("Nhập tên phòng ban: ");
-            department.Name = Console.ReadLine() ?? string.Empty;
+            department.Name = InputValidator.stringValidate();
 
             Console.Write("Nhập số lượng nhân viên: ");
-            department.TeamSize = int.Parse(Console.ReadLine() ?? string.Empty);
+            department.TeamSize = int.Parse(InputValidator.intValidate());
+
+            // int id = departments.Last().Id;
+
+            // department.Id = ++id;
 
             departmentRepository.Add(department);
         }
@@ -48,7 +67,7 @@ namespace human_resource_management.Controller
         public void DeleteDepartment()
         {
             Console.Write("Nhập ID phòng ban cần xóa: ");
-            int id = int.Parse(Console.ReadLine() ?? string.Empty);
+            int id = int.Parse(InputValidator.intValidate());
 
             DepartmentModel department = departmentRepository.GetById(id);
 

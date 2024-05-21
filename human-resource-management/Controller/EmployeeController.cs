@@ -11,7 +11,7 @@ namespace human_resource_management.Controller
     public class EmployeeController
     {
         private readonly EmployeeRepository employeeRepository;
-        private static EmployeeData employeeData = new EmployeeData();
+        private readonly EmployeeData employeeData = new EmployeeData();
         public EmployeeController(EmployeeRepository repository)
         {
             foreach (EmployeeModel employee in employeeData.employees)

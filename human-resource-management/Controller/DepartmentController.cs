@@ -10,6 +10,10 @@ namespace human_resource_management.Controller
     {
         private readonly DepartmentRepository departmentRepository;
         private readonly DepartmentData departmentData = new DepartmentData();
+        public List<DepartmentModel> GetAllDepartmentsList()
+        {
+            return departmentRepository.GetAll();
+        }
 
         public DepartmentController(DepartmentRepository repository)
         {

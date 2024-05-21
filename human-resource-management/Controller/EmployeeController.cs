@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using human_resource_management.Model;
 using human_resource_management.utils;
-using human_resource_management.Data;
 using System.Text;
 
 
@@ -13,23 +12,11 @@ namespace human_resource_management.Controller
     {
         private readonly EmployeeRepository employeeRepository;
         private readonly DepartmentRepository departmentRepository;
-        private readonly List<DepartmentModel> departments;
-        private readonly EmployeeData employeeData = new EmployeeData();
         public EmployeeController(EmployeeRepository repository, DepartmentRepository departmentRepository)
         {
             this.employeeRepository = repository;
             this.departmentRepository = departmentRepository;
         }
-        public EmployeeController(EmployeeRepository repository)
-        {
-            foreach (EmployeeModel employee in employeeData.employees)
-            {
-                repository.Add(employee);
-            }
-
-            this.employeeRepository = repository;
-        }
-
         public void GetAllListEmployees()
         {
             List<EmployeeModel> employees = employeeRepository.GetAll();

@@ -9,8 +9,8 @@ namespace human_resource_management
         public static void Main(string[] args)
         {
             
-            Console.InputEncoding = Encoding.UTF8;
-            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
 
             while (true)
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using human_resource_management.repositories;
 
 namespace human_resource_management.Model
 {
@@ -21,16 +22,7 @@ namespace human_resource_management.Model
         public DepartmentModel? Department { get; set; }
     }
 
-    public abstract class BaseRepository<T> where T : class
-    {
-        public abstract void Add(T entity);
-        public abstract void Update(T entity);
-        public abstract void Delete(T entity);
-        public abstract T GetById(int id);
-        public abstract List<T> GetAll();
-    }
-
-    public class EmployeeRepository : BaseRepository<EmployeeModel>
+    public class EmployeeRepository : BaseRepository.Repository<EmployeeModel>
     {
         private List<EmployeeModel> employees = new List<EmployeeModel>();
         private int nextId = 1;

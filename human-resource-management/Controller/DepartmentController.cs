@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
 using human_resource_management.Model;
-using human_resource_management.Data;
 using human_resource_management.utils;
 
 namespace human_resource_management.Controller
 {
     public class DepartmentController
     {
-        public static DepartmentData departmentData = new DepartmentData();
-        public static List<DepartmentModel> departments = departmentData.departments;
+        private readonly DepartmentRepository departmentRepository;
 
-        public static void DisplayDepartments()
+        public DepartmentController(DepartmentRepository repository)
         {
+            departmentRepository = repository;
+        }
+
+        public void GetAllDepartments()
+        {
+            List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Danh sách phòng ban:");
             Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
             "Mã phòng ban",
@@ -21,19 +25,31 @@ namespace human_resource_management.Controller
             "Số Nhân viên hiện có");
             Console.WriteLine("---------------------------------------------------------------------------------------------------");
 
-            foreach (DepartmentModel department in departments)
+            if (departments.Count == 0)
             {
-                Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
-                department.Id,
-                department.Name,
-                department.TeamSize,
-                department.Employees != null ? department.Employees.Count() : 0
-                );
+                Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+            }
+            else
+            {
+                foreach (DepartmentModel item in departments)
+                {
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
+                        item.Id,
+                        item.Name,
+                        item.TeamSize,
+                        item.ListEmployees != null ? item.ListEmployees.Count() : 0
+                    );
+                }
+
             }
         }
-        public static void AddDepartment()
+
+        public void AddDepartment()
         {
             DepartmentModel department = new DepartmentModel();
+
+            Console.Write("Nhập mã nhân viên: ");
+            department.DepartmentCode = Console.ReadLine();
 
             Console.Write("Nhập tên phòng ban: ");
             department.Name = InputValidator.stringValidate();
@@ -41,18 +57,19 @@ namespace human_resource_management.Controller
             Console.Write("Nhập số lượng nhân viên: ");
             department.TeamSize = int.Parse(InputValidator.intValidate());
 
-            int id = departments.Last().Id;
+            // int id = departments.Last().Id;
 
-            department.Id = ++id;
+            // department.Id = ++id;
 
-            DepartmentController.departments.Add(department);
+            departmentRepository.Add(department);
         }
-        public static void DeleteDepartment()
+
+        public void DeleteDepartment()
         {
             Console.Write("Nhập ID phòng ban cần xóa: ");
             int id = int.Parse(InputValidator.intValidate());
 
-            DepartmentModel department = DepartmentController.departments.Find(d => d.Id == id);
+            DepartmentModel department = departmentRepository.GetById(id);
 
             if (department == null)
             {
@@ -60,7 +77,7 @@ namespace human_resource_management.Controller
             }
             else
             {
-                DepartmentController.departments.Remove(department);
+                departmentRepository.Delete(department);
                 Console.WriteLine("Xóa phòng ban thành công!");
             }
         }

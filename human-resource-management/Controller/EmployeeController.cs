@@ -157,7 +157,7 @@ namespace human_resource_management.Controller
             Console.Write("Nhập tên nhân viên cần tìm: ");
             string name = InputValidator.stringValidate();
             Console.WriteLine();
-            List<EmployeeModel> employees = employeeRepository.GetAll();
+            List<EmployeeModel> employees = new List<EmployeeModel>(employeeRepository.GetAll());
 
             employees.Sort((x, y) => string.Compare(x.Name, y.Name));
 
@@ -169,7 +169,7 @@ namespace human_resource_management.Controller
             }
             else
             {
-                Console.WriteLine($"Tìm thấy người có tên '{name}' tại vị trí {employees[index].Id}");
+                Console.WriteLine($"Tìm thấy nhân viên có tên '{name}' có ID: {employees[index].Id}");
                 Console.WriteLine(
                         $"Mã nhân viên: {employees[index].Id}, " +
                         $"Tên nhân viên: {employees[index].Name}, " +

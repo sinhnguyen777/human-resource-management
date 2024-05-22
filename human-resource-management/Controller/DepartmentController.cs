@@ -38,15 +38,15 @@ namespace human_resource_management.Controller
             }
             else
             {
-                foreach (DepartmentModel department in departments)
+                foreach (DepartmentModel item in departments)
                 {
                     string Manager;
-                    Manager = department.IdManager != null ? employeeRepository.GetById(department.IdManager ?? 0).Name : "Không có trưởng phòng";
+                    Manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
                     Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
-                        department.Id,
-                        department.Name,
-                        department.TeamSize,
-                        department.ListEmployees != null ? department.ListEmployees.Count() : 0,
+                        item.Id,
+                        item.Name,
+                        item.TeamSize,
+                        item.ListEmployees != null ? item.ListEmployees.Count() : 0,
                         Manager
                     );
                 }

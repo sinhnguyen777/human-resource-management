@@ -20,6 +20,39 @@ namespace human_resource_management.Controller
             this.employeeRepository = employeeRepository;
         }
 
+        public void GetAllDepartments()
+        {
+            List<DepartmentModel> departments = departmentRepository.GetAll();
+            Console.WriteLine("Danh sách phòng ban:");
+            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+            "Mã phòng ban",
+            "Tên phòng ban",
+            "Số Nhân viên tối đa",
+            "Số Nhân viên hiện có",
+            "Trưởng phòng");
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+
+            if (departments.Count == 0)
+            {
+                Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+            }
+            else
+            {
+                foreach (DepartmentModel item in departments)
+                {
+                    string Manager;
+                    Manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                        item.Id,
+                        item.Name,
+                        item.TeamSize,
+                        item.ListEmployees != null ? item.ListEmployees.Count() : 0,
+                        Manager
+                    );
+                }
+
+            }
+        }
 
 
         public void AddDepartment()

@@ -34,47 +34,47 @@ namespace human_resource_management.View
 
                 Console.Write("Chọn chức năng: ");
 
-                int choice = int.Parse(Console.ReadLine() ?? string.Empty);
+                string choice = Console.ReadLine() ?? string.Empty;
 
                 switch (choice)
                 {
-                    case 1:
+                    case "1":
                         _employeeController.GetAllListEmployees();
                         break;
-                    case 2:
+                    case "2":
                         _employeeController.AddEmployee();
                         break;
-                    case 3:
+                    case "3":
                         _employeeController.DeleteEmployee();
                         break;
-                    case 4:
+                    case "4":
                         break;
-                    case 5:
+                    case "5":
                         _employeeController.FilterEmployee();
                         break;
-                    case 6:
+                    case "6":
                         _employeeController.SortEmployeesBy(employee => employee.Id);
                         _employeeController.GetAllListEmployees();
                         break;
-                    case 7:
+                    case "7":
                         _employeeController.SortEmployeesByLastName();
                         _employeeController.GetAllListEmployees();
                         break;
-                    case 8:
+                    case "8":
                         _employeeController.SortEmployeesBy(employee => employee.Sex);
                         _employeeController.GetAllListEmployees();
                         break;
-                    case 9:
+                    case "9":
                         _employeeController.SortEmployeesBy(employee => employee.Position);
                         _employeeController.GetAllListEmployees();
                         break;
-                    case 10:
+                    case "10":
                         _employeeController.ExportDataEmployeesToFile();
                         break;
-                    case 11:
+                    case "11":
                         _employeeController.ImportDataEmpoyeesToFile();
                         break;
-                    case 0:
+                    case "0":
                         return;
                     default:
                         Console.WriteLine("Chức năng không hợp lệ!");

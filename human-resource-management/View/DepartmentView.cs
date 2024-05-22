@@ -42,6 +42,9 @@ namespace human_resource_management.View
                     case "3":
                         _departmentController.DeleteDepartment();
                         break;
+                    case "6":
+                        _departmentController.AssignManager();
+                        break;
                     case "7":
                         _departmentController.GetEmployeesByDepartment();
                         break;

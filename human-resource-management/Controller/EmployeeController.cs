@@ -268,11 +268,21 @@ namespace human_resource_management.Controller
         public void ExportDataEmployeesToFile()
         {
             Console.Write("Nhập tên file để xuất dữ liệu (ví dụ: employees.txt): ");
-            string fileName = InputValidator.stringValidate();
+            string fileName = Console.ReadLine() ?? string.Empty;
 
-            if (string.IsNullOrWhiteSpace(fileName))
+            while (true)
             {
-                fileName = "employees.txt";
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    fileName = "employees.txt";
+                }
+                else if (!fileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.Write("Tên file không hợp lệ. Vui lòng nhập lại tên file với đuôi .txt: ");
+                    fileName = Console.ReadLine() ?? string.Empty;
+                    continue;
+                }
+                break;
             }
 
             string userDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -282,28 +292,10 @@ namespace human_resource_management.Controller
 
             using (StreamWriter writer = new StreamWriter(filePath, false, Encoding.Unicode))
             {
-                writer.WriteLine("Danh sách nhân viên:");
-
-                writer.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
-                "Mã nhân viên",
-                "Tên nhân viên",
-                "Ngày sinh",
-                "Giới tính",
-                "Lương",
-                "Vị trí",
-                "Phòng ban");
-                writer.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
                     string departmentName = departmentRepository.GetDepartmentNameById(item.IdDepartment ?? 0);
-                    writer.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
-                    item.Id,
-                    item.Name,
-                    item.Birthday.ToShortDateString(),
-                    item.Sex.ToVietnameseString(),
-                    $"{item.Salary} VNĐ",
-                    item.Position,
-                    departmentName);
+                    writer.WriteLine($"Mã nhân viên: {item.Id}, Tên Nhân viên: {item.Name}, Ngày Sinh: {item.Birthday.ToShortDateString()}, Giới tính: {item.Sex.ToVietnameseString()}, Lương: {item.Salary} VNĐ, Vị trí: {item.Position}, Phòng ban: {departmentName}");
                 }
             }
 

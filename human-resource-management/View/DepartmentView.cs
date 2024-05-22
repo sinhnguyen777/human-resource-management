@@ -34,6 +34,7 @@ namespace human_resource_management.View
                 switch (choice)
                 {
                     case "1":
+                        _departmentController.GetAllDepartment();
                         break;
                     case "2":
                         _departmentController.AddDepartment();

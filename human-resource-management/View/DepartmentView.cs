@@ -22,11 +22,12 @@ namespace human_resource_management.View
                 Console.WriteLine("2. Thêm phòng ban mới");
                 Console.WriteLine("3. Xóa phòng ban");
                 Console.WriteLine("4. Tìm kiếm phòng ban theo tên");
-                Console.WriteLine("5. Sắp xếp phòng ban theo tên");
-                Console.WriteLine("6. Sửa thông tin phòng ban");
-                Console.WriteLine("7. Thêm nhân viên vào phòng ban");
-                Console.WriteLine("8. Chỉ định trưởng phòng");
-                Console.WriteLine("9. Xem danh sách nhân viên theo phòng ban");
+                Console.WriteLine("5. Sắp xếp phòng ban theo ID");
+                Console.WriteLine("6. Sắp xếp phòng ban theo tên");
+                Console.WriteLine("7. Sửa thông tin phòng ban");
+                Console.WriteLine("8. Thêm nhân viên vào phòng ban");
+                Console.WriteLine("9. Chỉ định trưởng phòng");
+                Console.WriteLine("10. Xem danh sách nhân viên theo phòng ban");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -48,13 +49,17 @@ namespace human_resource_management.View
                         _departmentController.FilterDepartment();
                         break;
                     case "5":
-                        _departmentController.SortDepartmentByName();
+                        _departmentController.SortDepartmentBy(department => department.Id);
                         _departmentController.GetAllDepartments();
                         break;
-                    case "8":
-                        _departmentController.AssignManager();
+                    case "6":
+                        _departmentController.SortDepartmentBy(department => department.Name);
+                        _departmentController.GetAllDepartments();
                         break;
                     case "9":
+                        _departmentController.AssignManager();
+                        break;
+                    case "10":
                         _departmentController.GetEmployeesByDepartment();
                         break;
                     case "0":

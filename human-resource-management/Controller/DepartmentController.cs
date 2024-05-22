@@ -215,7 +215,7 @@ namespace human_resource_management.Controller
             Console.Write("Nhập tên phòng ban cần tìm: ");
             string name = InputValidator.stringValidate();
             Console.WriteLine();
-            List<DepartmentModel> departments = departmentRepository.GetAll();
+            List<DepartmentModel> departments = new List<DepartmentModel>(departmentRepository.GetAll());
 
             departments.Sort((x, y) => string.Compare(x.Name, y.Name));
 
@@ -267,23 +267,23 @@ namespace human_resource_management.Controller
 
             return -1;
         }
-        public void SortDepartmentByName()
+        public void SortDepartmentBy(Func<DepartmentModel, IComparable> keySelector)
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
             int length = departments.Count();
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < length - 1; i++)
             {
-                DepartmentModel department = departments[i];
-                for (int j = i; j < length - 1; j++)
+                int swap = i;
+                for (int j = i + 1; j < length; j++)
                 {
-                    if (string.Compare(department.Name, departments[j].Name) > 0)
+                    if (keySelector(departments[swap]).CompareTo(keySelector(departments[j])) > 0)
                     {
-                        department = departments[j];
+                        swap = j;
                     }
                 }
-                DepartmentModel temp = department;
-                department = departments[i];
-                departments[i] = temp;
+                DepartmentModel temp = departments[i];
+                departments[i] = departments[swap];
+                departments[swap] = temp;
             }
         }
     }

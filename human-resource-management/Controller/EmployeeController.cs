@@ -157,7 +157,7 @@ namespace human_resource_management.Controller
             Console.Write("Nhập tên nhân viên cần tìm: ");
             string name = InputValidator.stringValidate();
             Console.WriteLine();
-            List<EmployeeModel> employees = employeeRepository.GetAll();
+            List<EmployeeModel> employees = new List<EmployeeModel>(employeeRepository.GetAll());
 
             employees.Sort((x, y) => string.Compare(x.Name, y.Name));
 

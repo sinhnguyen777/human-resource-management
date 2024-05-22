@@ -24,12 +24,13 @@ namespace human_resource_management.Controller
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Danh sách phòng ban:");
-            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
+            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
             "Mã phòng ban",
             "Tên phòng ban",
             "Số Nhân viên tối đa",
-            "Số Nhân viên hiện có");
-            Console.WriteLine("---------------------------------------------------------------------------------------------------");
+            "Số Nhân viên hiện có",
+            "Trưởng phòng");
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
 
             if (departments.Count == 0)
             {
@@ -37,13 +38,16 @@ namespace human_resource_management.Controller
             }
             else
             {
-                foreach (DepartmentModel item in departments)
+                foreach (DepartmentModel department in departments)
                 {
-                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}",
-                        item.Id,
-                        item.Name,
-                        item.TeamSize,
-                        item.ListEmployees != null ? item.ListEmployees.Count() : 0
+                    string Manager;
+                    Manager = department.IdManager != null ? employeeRepository.GetById(department.IdManager ?? 0).Name : "Không có trưởng phòng";
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                        department.Id,
+                        department.Name,
+                        department.TeamSize,
+                        department.ListEmployees != null ? department.ListEmployees.Count() : 0,
+                        Manager
                     );
                 }
 
@@ -142,6 +146,67 @@ namespace human_resource_management.Controller
                         $"{item.Salary} VNĐ",
                         item.Position);
                 }
+            }
+        }
+        public void AssignManager()
+        {
+            List<EmployeeModel> employees = employeeRepository.GetAll();
+            List<DepartmentModel> departments = departmentRepository.GetAll();
+            Console.WriteLine();
+            Console.WriteLine("Danh sách phòng ban:");
+            int index = 1;
+            foreach (DepartmentModel department in departments)
+            {
+                Console.WriteLine($"{index++}. {department.Name}");
+            }
+            int departmentChoice;
+            while (true)
+            {
+                Console.Write("Chọn phòng ban cần chỉ định trưởng phòng: ");
+                departmentChoice = int.Parse(InputValidator.intValidate());
+                if (departmentChoice > 0 && departmentChoice < index)
+                {
+                    break;
+                }
+                Console.WriteLine();
+                Console.WriteLine("Lựa chọn không phù hợp, vui lòng nhập lại.");
+
+            }
+            DepartmentModel selectedDepartment = departments[departmentChoice - 1];
+            if (selectedDepartment.ListEmployees != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Danh sách nhân viên thuộc phòng ban {selectedDepartment.Name}:");
+                index = 1;
+                List<EmployeeModel> selectedDepartmentEmployees = employees.FindAll(employee => employee.IdDepartment == selectedDepartment.Id);
+
+                foreach (EmployeeModel employee in selectedDepartmentEmployees)
+                {
+                    Console.WriteLine($"{index++}. Tên: {employee.Name}, ID: {employee.Id}");
+                }
+                int employeeChoice;
+                while (true)
+                {
+                    Console.Write("Chọn nhân viên làm trưởng phòng: ");
+                    employeeChoice = int.Parse(InputValidator.intValidate());
+                    if (employeeChoice > 0 && employeeChoice < index)
+                    {
+                        break;
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("Lựa chọn không phù hợp, vui lòng nhập lại.");
+
+                }
+                EmployeeModel selectedEmployee = selectedDepartmentEmployees[employeeChoice - 1];
+                selectedDepartment.IdManager = selectedEmployee.Id;
+                Console.WriteLine();
+                Console.Write($"Đã chỉ định nhân viên \"{selectedEmployee.Name}\" có ID: {selectedEmployee.Id} trở thành trưởng phòng của phòng ban {selectedDepartment.Name}.");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Phòng ban chưa có nhân viên trực thuộc");
             }
         }
     }

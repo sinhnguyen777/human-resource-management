@@ -20,18 +20,37 @@ namespace human_resource_management.Controller
             this.employeeRepository = employeeRepository;
         }
 
-        public void GetAllDepartment () {
+        public void GetAllDepartments()
+        {
             List<DepartmentModel> departments = departmentRepository.GetAll();
-            Console.WriteLine("Danh sách phòng ban: ");
+            Console.WriteLine("Danh sách phòng ban:");
+            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+            "Mã phòng ban",
+            "Tên phòng ban",
+            "Số Nhân viên tối đa",
+            "Số Nhân viên hiện có",
+            "Trưởng phòng");
+            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
 
-            foreach(DepartmentModel item in departments)
+            if (departments.Count == 0)
             {
-                string Manager;
-                Manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
+                Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+            }
+            else
+            {
+                foreach (DepartmentModel department in departments)
+                {
+                    string Manager;
+                    Manager = department.IdManager != null ? employeeRepository.GetById(department.IdManager ?? 0).Name : "Không có trưởng phòng";
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                        department.Id,
+                        department.Name,
+                        department.TeamSize,
+                        department.ListEmployees != null ? department.ListEmployees.Count() : 0,
+                        Manager
+                    );
+                }
 
-                int lisEmployeesNow = item.ListEmployees != null ? item.ListEmployees.Count() : 0;
-
-                Console.WriteLine($"Mã phòng ban: {item.Id}, Tên phòng ban: {item.Name}, Số nhân viên tối đa: {item.TeamSize}, Số nhân viên hiện có: {lisEmployeesNow}, Trưởng phòng: {Manager}");
             }
         }
 

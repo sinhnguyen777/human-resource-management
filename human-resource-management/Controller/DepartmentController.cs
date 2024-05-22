@@ -40,14 +40,14 @@ namespace human_resource_management.Controller
             {
                 foreach (DepartmentModel item in departments)
                 {
-                    string Manager;
-                    Manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
+                    string manager;
+                    manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
                     Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
                         item.Id,
                         item.Name,
                         item.TeamSize,
                         item.ListEmployees != null ? item.ListEmployees.Count() : 0,
-                        Manager
+                        manager
                     );
                 }
 
@@ -208,6 +208,82 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine();
                 Console.WriteLine("Phòng ban chưa có nhân viên trực thuộc");
+            }
+        }
+        public void FilterDepartment()
+        {
+            Console.Write("Nhập tên phòng ban cần tìm: ");
+            string name = InputValidator.stringValidate();
+            Console.WriteLine();
+            List<DepartmentModel> departments = departmentRepository.GetAll();
+
+            departments.Sort((x, y) => string.Compare(x.Name, y.Name));
+
+            int index = BinarySearchByName(departments, name);
+
+            if (index == -1)
+            {
+                Console.WriteLine($"Không tìm thấy phòng ban có tên '{name}' trong danh sách.");
+            }
+            else
+            {
+                Console.WriteLine($"Tìm thấy phòng ban có tên '{name}' có ID: {departments[index].Id}");
+                int departmentEmployeeCount = departments[index].ListEmployees != null ? departments[index].ListEmployees.Count() : 0;
+                String manager = departments[index].IdManager != null ? employeeRepository.GetById(departments[index].IdManager ?? 0).Name : "Không có trưởng phòng";
+                Console.WriteLine(
+                        $"Mã phòng ban: {departments[index].Id}, " +
+                        $"Tên phòng ban: {departments[index].Name}, " +
+                        $"Số nhân viên tối đa: {departments[index].TeamSize}, " +
+                        $"Số nhân viên hiện có: {departmentEmployeeCount}, " +
+                        $"Trưởng phòng: {manager}, "
+                    );
+
+            }
+
+        }
+        private static int BinarySearchByName(List<DepartmentModel> departments, string value)
+        {
+            int left = 0;
+            int right = departments.Count - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                int result = string.Compare(departments[mid].Name, value);
+
+                if (result == 0)
+                {
+                    return mid;
+                }
+                else if (result < 0)
+                {
+                    left = mid + 1;
+                }
+                else
+                {
+                    right = mid - 1;
+                }
+
+            }
+
+            return -1;
+        }
+        public void SortDepartmentByName()
+        {
+            List<DepartmentModel> departments = departmentRepository.GetAll();
+            int length = departments.Count();
+            for (int i = 0; i < length; i++)
+            {
+                DepartmentModel department = departments[i];
+                for (int j = i; j < length - 1; j++)
+                {
+                    if (string.Compare(department.Name, departments[j].Name) > 0)
+                    {
+                        department = departments[j];
+                    }
+                }
+                DepartmentModel temp = department;
+                department = departments[i];
+                departments[i] = temp;
             }
         }
     }

@@ -21,10 +21,12 @@ namespace human_resource_management.View
                 Console.WriteLine("1. Xem danh sách phòng ban");
                 Console.WriteLine("2. Thêm phòng ban mới");
                 Console.WriteLine("3. Xóa phòng ban");
-                Console.WriteLine("4. Sửa thông tin phòng ban");
-                Console.WriteLine("5. Thêm nhân viên vào phòng ban");
-                Console.WriteLine("6. Chỉ định trưởng phòng");
-                Console.WriteLine("7. Xem danh sách nhân viên theo phòng ban");
+                Console.WriteLine("4. Tìm kiếm phòng ban theo tên");
+                Console.WriteLine("5. Sắp xếp phòng ban theo tên");
+                Console.WriteLine("6. Sửa thông tin phòng ban");
+                Console.WriteLine("7. Thêm nhân viên vào phòng ban");
+                Console.WriteLine("8. Chỉ định trưởng phòng");
+                Console.WriteLine("9. Xem danh sách nhân viên theo phòng ban");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -42,10 +44,17 @@ namespace human_resource_management.View
                     case "3":
                         _departmentController.DeleteDepartment();
                         break;
-                    case "6":
+                    case "4":
+                        _departmentController.FilterDepartment();
+                        break;
+                    case "5":
+                        _departmentController.SortDepartmentByName();
+                        _departmentController.GetAllDepartments();
+                        break;
+                    case "8":
                         _departmentController.AssignManager();
                         break;
-                    case "7":
+                    case "9":
                         _departmentController.GetEmployeesByDepartment();
                         break;
                     case "0":

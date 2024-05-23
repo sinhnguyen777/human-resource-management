@@ -9,10 +9,6 @@ namespace human_resource_management.Controller
     {
         private readonly DepartmentRepository departmentRepository;
         private readonly EmployeeRepository employeeRepository;
-        public List<DepartmentModel> GetAllDepartmentsList()
-        {
-            return departmentRepository.GetAll();
-        }
 
         public DepartmentController(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository)
         {
@@ -59,18 +55,11 @@ namespace human_resource_management.Controller
         {
             DepartmentModel department = new DepartmentModel();
 
-            Console.Write("Nhập mã phòng ban: ");
-            department.DepartmentCode = Console.ReadLine();
-
             Console.Write("Nhập tên phòng ban: ");
             department.Name = InputValidator.stringValidate();
 
             Console.Write("Nhập số lượng nhân viên: ");
             department.TeamSize = int.Parse(InputValidator.intValidate());
-
-            // int id = departments.Last().Id;
-
-            // department.Id = ++id;
 
             departmentRepository.Add(department);
         }
@@ -91,6 +80,44 @@ namespace human_resource_management.Controller
                 departmentRepository.Delete(department);
                 Console.WriteLine("Xóa phòng ban thành công!");
             }
+        }
+
+        public void UpdateDepartment()
+        {
+            DepartmentModel? department = null;
+            int id;
+            Console.Write("Nhập ID phòng ban cần sửa: ");
+            id = int.Parse(InputValidator.intValidate());
+
+            while ((department = departmentRepository.GetById(id)) == null)
+            {
+                Console.WriteLine("Không tìm thấy phòng ban cần sửa! Vui lòng thử lại.");
+                Console.Write("Nhập ID phòng ban cần sửa: ");
+                id = int.Parse(InputValidator.intValidate());
+            }
+
+            Console.Write("Nhập tên phòng ban: ");
+            department.Name = InputValidator.stringValidate();
+
+            int numberDepartment;
+
+            while (true)
+            {
+                Console.Write("Nhập số lượng nhân viên: ");
+                numberDepartment = int.Parse(InputValidator.intValidate());
+
+                if (department.ListEmployees.Count > numberDepartment)
+                {
+                    Console.WriteLine("Số lượng nhân viên tối đa không được nhỏ hơn số lượng nhân viên hiện tại đang có trong phòng vui lòng thử lại");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            department.TeamSize = numberDepartment;
+            departmentRepository.Update(department);
+            Console.WriteLine("Cập nhật phòng ban thành công.");
         }
 
         public void GetEmployeesByDepartment()
@@ -219,7 +246,7 @@ namespace human_resource_management.Controller
 
             departments.Sort((x, y) => string.Compare(x.Name, y.Name));
 
-            int index = BinarySearchByName(departments, name);
+            int index = BinarySearch.BinarySearchByName(departments, name);
 
             if (index == -1)
             {
@@ -229,7 +256,7 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine($"Tìm thấy phòng ban có tên '{name}' có ID: {departments[index].Id}");
                 int departmentEmployeeCount = departments[index].ListEmployees != null ? departments[index].ListEmployees.Count() : 0;
-                String manager = departments[index].IdManager != null ? employeeRepository.GetById(departments[index].IdManager ?? 0).Name : "Không có trưởng phòng";
+                String? manager = departments[index].IdManager != null ? employeeRepository.GetById(departments[index].IdManager ?? 0).Name : "Không có trưởng phòng";
                 Console.WriteLine(
                         $"Mã phòng ban: {departments[index].Id}, " +
                         $"Tên phòng ban: {departments[index].Name}, " +
@@ -241,32 +268,7 @@ namespace human_resource_management.Controller
             }
 
         }
-        private static int BinarySearchByName(List<DepartmentModel> departments, string value)
-        {
-            int left = 0;
-            int right = departments.Count - 1;
-            while (left <= right)
-            {
-                int mid = left + (right - left) / 2;
-                int result = string.Compare(departments[mid].Name, value);
 
-                if (result == 0)
-                {
-                    return mid;
-                }
-                else if (result < 0)
-                {
-                    left = mid + 1;
-                }
-                else
-                {
-                    right = mid - 1;
-                }
-
-            }
-
-            return -1;
-        }
         public void SortDepartmentBy(Func<DepartmentModel, IComparable> keySelector)
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();

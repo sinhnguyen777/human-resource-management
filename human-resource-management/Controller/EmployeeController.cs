@@ -22,24 +22,23 @@ namespace human_resource_management.Controller
         public void GetAllListEmployees()
         {
             List<EmployeeModel> employees = employeeRepository.GetAll();
+            Console.WriteLine("Danh sách nhân viên: \n");
 
+            Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
+            "Mã nhân viên",
+            "Tên nhân viên",
+            "Ngày sinh",
+            "Giới tính",
+            "Lương",
+            "Vị trí",
+            "Phòng ban");
+            Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
             if (employees.Count == 0)
             {
                 Console.WriteLine("Danh sách rỗng, hiện tại chưa có nhân viên nào \n");
             }
             else
             {
-                Console.WriteLine("Danh sách nhân viên: \n");
-
-                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}| {6, -10}",
-                "Mã nhân viên",
-                "Tên nhân viên",
-                "Ngày sinh",
-                "Giới tính",
-                "Lương",
-                "Vị trí",
-                "Phòng ban");
-                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
                     string departmentName = departmentRepository.GetDepartmentNameById(item.IdDepartment ?? 0);
@@ -109,9 +108,50 @@ namespace human_resource_management.Controller
 
         }
 
-        public void UpdateEmployee(EmployeeModel employee)
+        public void UpdateEmployee()
         {
+            EmployeeModel? employee = null;
+
+            Console.Write("Nhập ID nhân viên cần sửa: ");
+            int id = int.Parse(InputValidator.intValidate());
+
+            while ((employee = employeeRepository.GetById(id)) == null)
+            {
+                Console.WriteLine("Không tìm thấy nhân viên có ID: " + id + "vui lòng nhập lại");
+                Console.Write("Nhập ID nhân viên cần cập nhật: ");
+                id = int.Parse(InputValidator.intValidate());
+            }
+
+            Console.Write("Nhập tên nhân viên: ");
+            employee.Name = InputValidator.stringValidate();
+
+            employee.Birthday = DateValidator.GetValidDateOfBirth();
+
+            employee.Sex = InputGender();
+
+            Console.Write("Nhập lương: ");
+            int salaryInput = int.Parse(InputValidator.intValidate());
+            employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
+
+            Console.Write("Vị trí làm việc: ");
+            employee.Position = InputValidator.stringValidate();
+
+            int departmentId = InputDepartment();
+            employee.IdDepartment = departmentId;
+
             employeeRepository.Update(employee);
+            int newEmployeeId = employee.Id;
+
+            DepartmentModel department = departmentRepository.GetById(departmentId);
+            if (department != null)
+            {
+                if (department.ListEmployees == null)
+                {
+                    department.ListEmployees = new List<int>();
+                }
+                department.ListEmployees.Add(newEmployeeId);
+                departmentRepository.Update(department);
+            }
             Console.WriteLine("Cập nhật nhân viên thành công.");
         }
         public void DeleteEmployee(EmployeeModel employee)
@@ -161,7 +201,7 @@ namespace human_resource_management.Controller
 
             employees.Sort((x, y) => string.Compare(x.Name, y.Name));
 
-            int index = BinarySearchByName(employees, name);
+            int index = BinarySearch.BinarySearchByName(employees, name);
 
             if (index == -1)
             {
@@ -182,33 +222,6 @@ namespace human_resource_management.Controller
 
             }
 
-        }
-
-        private static int BinarySearchByName(List<EmployeeModel> employees, string value)
-        {
-            int left = 0;
-            int right = employees.Count - 1;
-            while (left <= right)
-            {
-                int mid = left + (right - left) / 2;
-                int result = string.Compare(employees[mid].Name, value);
-
-                if (result == 0)
-                {
-                    return mid;
-                }
-                else if (result < 0)
-                {
-                    left = mid + 1;
-                }
-                else
-                {
-                    right = mid - 1;
-                }
-
-            }
-
-            return -1;
         }
 
         private static GenderEnum InputGender()

@@ -27,8 +27,8 @@ namespace human_resource_management.View
                 Console.WriteLine("7. Sắp xếp nhân viên theo tên");
                 Console.WriteLine("8. Sắp xếp nhân viên theo giới tính");
                 Console.WriteLine("9. Sắp xếp nhân viên theo vị trí");
-                Console.WriteLine("10. Xuất file dữ liệu nhân viên (ghi file):");
-                Console.WriteLine("11. Nhập file dữ liệu nhân viên (đọc file):");
+                Console.WriteLine("10. Xuất file dữ liệu nhân viên (ghi file)");
+                Console.WriteLine("11. Nhập file dữ liệu nhân viên (đọc file)");
                 Console.WriteLine("0. Quay lại");
                 Console.WriteLine();
 
@@ -48,6 +48,7 @@ namespace human_resource_management.View
                         _employeeController.DeleteEmployee();
                         break;
                     case "4":
+                        _employeeController.UpdateEmployee();
                         break;
                     case "5":
                         _employeeController.FilterEmployee();

@@ -102,7 +102,13 @@ namespace human_resource_management.Controller
             }
             else
             {
+                DepartmentModel department = departmentRepository.GetById(employee.IdDepartment ?? 0);
                 employeeRepository.Delete(employee);
+                if (department.IdManager == id)
+                {
+                    department.IdManager = null;
+                }
+                department.ListEmployees.Remove(id);
                 Console.WriteLine("Xóa nhân viên thành công.");
             }
 

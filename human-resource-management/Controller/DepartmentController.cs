@@ -96,6 +96,12 @@ namespace human_resource_management.Controller
                 id = int.Parse(InputValidator.intValidate());
             }
 
+            if (department.ListEmployees == null)
+            {
+                department.ListEmployees = new List<int>();
+            }
+
+
             Console.Write("Nhập tên phòng ban: ");
             department.Name = InputValidator.stringValidate();
 

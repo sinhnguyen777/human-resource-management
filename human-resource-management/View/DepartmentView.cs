@@ -59,6 +59,9 @@ namespace human_resource_management.View
                     case "7":
                         _departmentController.FilterDepartment();
                         break;
+                    case "8":
+                        _departmentController.AddEmployeeToDepartment();
+                        break;
                     case "9":
                         _departmentController.AssignManager();
                         break;

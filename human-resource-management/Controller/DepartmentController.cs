@@ -46,7 +46,6 @@ namespace human_resource_management.Controller
                         manager
                     );
                 }
-
             }
         }
 
@@ -77,7 +76,15 @@ namespace human_resource_management.Controller
             }
             else
             {
+                List<EmployeeModel> employees = employeeRepository
+                                                .GetAll()
+                                                .FindAll(employee => employee.IdDepartment == id);
                 departmentRepository.Delete(department);
+                foreach (EmployeeModel employee in employees)
+                {
+                    employee.IdDepartment = null;
+                }
+
                 Console.WriteLine("Xóa phòng ban thành công!");
             }
         }
@@ -268,7 +275,7 @@ namespace human_resource_management.Controller
                         $"Tên phòng ban: {departments[index].Name}, " +
                         $"Số nhân viên tối đa: {departments[index].TeamSize}, " +
                         $"Số nhân viên hiện có: {departmentEmployeeCount}, " +
-                        $"Trưởng phòng: {manager}, "
+                        $"Trưởng phòng: {manager}"
                     );
 
             }
@@ -292,6 +299,126 @@ namespace human_resource_management.Controller
                 DepartmentModel temp = departments[i];
                 departments[i] = departments[swap];
                 departments[swap] = temp;
+            }
+        }
+        public void AddEmployeeToDepartment()
+        {
+            List<DepartmentModel> departments = departmentRepository
+            .GetAll()
+            .FindAll(department => department.TeamSize > (department.ListEmployees != null ? department.ListEmployees.Count() : 0));
+            List<EmployeeModel> employees = employeeRepository
+            .GetAll()
+            .FindAll(employee => employee.IdDepartment == null);
+            int employeesCount = employees.Count();
+            if (employeesCount > 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Danh sách nhân viên chưa có phòng ban:");
+                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}",
+                        "Mã nhân viên",
+                        "Tên nhân viên",
+                        "Ngày sinh",
+                        "Giới tính",
+                        "Lương",
+                        "Vị trí");
+                Console.WriteLine("-----------------------------------------------------------------------------------");
+                foreach (EmployeeModel employee in employees)
+                {
+                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}",
+                        employee.Id,
+                        employee.Name,
+                        employee.Birthday.ToShortDateString(),
+                        employee.Sex.ToVietnameseString());
+                }
+                int employeeChoice, departmentChoice;
+                bool isContinue = true;
+                EmployeeModel employeeToAdd;
+                while (true)
+                {
+                    Console.WriteLine();
+                    Console.Write("Nhập ID nhân viên cần chỉ định phòng ban (nhập 0 để thoát): ");
+                    employeeChoice = int.Parse(InputValidator.intValidate());
+                    employeeToAdd = employees.Find(employee => employee.Id == employeeChoice);
+                    if (employeeToAdd != null)
+                    {
+                        break;
+                    }
+                    if (employeeChoice == 0)
+                    {
+                        isContinue = false;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Lựa chọn không hợp lệ, Vui lòng chọn lại.");
+                    }
+                }
+                if (isContinue)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Danh sách phòng ban:");
+                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                    "Mã phòng ban",
+                    "Tên phòng ban",
+                    "Số Nhân viên tối đa",
+                    "Số Nhân viên hiện có",
+                    "Trưởng phòng");
+                    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+
+                    if (departments.Count == 0)
+                    {
+                        Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+                    }
+                    else
+                    {
+                        foreach (DepartmentModel item in departments)
+                        {
+                            string manager;
+                            manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
+                            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                                item.Id,
+                                item.Name,
+                                item.TeamSize,
+                                item.ListEmployees != null ? item.ListEmployees.Count() : 0,
+                                manager
+                            );
+                        }
+                    }
+                    while (true)
+                    {
+                        Console.WriteLine();
+                        Console.Write("Nhập ID phòng ban cần thêm nhân viên (nhập 0 để thoát): ");
+                        departmentChoice = int.Parse(InputValidator.intValidate());
+                        DepartmentModel departmentToAdd = departments.Find(department => department.Id == departmentChoice);
+                        if (departmentToAdd != null)
+                        {
+                            if (departmentToAdd.ListEmployees != null)
+                            {
+                                departmentToAdd.ListEmployees.Add(employeeChoice);
+                            }
+                            else
+                            {
+                                departmentToAdd.ListEmployees = new List<int>() { employeeChoice };
+                            }
+                            employeeToAdd.IdDepartment = departmentChoice;
+                            Console.WriteLine($"Đã thêm nhân viên \"{employeeToAdd.Name}\" có ID: {employeeToAdd.Id} vào phòng ban {departmentToAdd.Name}.");
+                            break;
+                        }
+                        else if (departmentChoice == 0)
+                        {
+                            Console.WriteLine("Trở về menu chính!");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Lựa chọn không hợp lệ, Vui lòng chọn lại.");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Không có nhân viên nào chưa có phòng ban!");
             }
         }
     }

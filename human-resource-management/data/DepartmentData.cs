@@ -15,7 +15,7 @@ namespace human_resource_management.Data
             new DepartmentModel() {
                 Id = 2,
                 Name = "Financial Planning",
-                TeamSize = 5,
+                TeamSize = 1,
                 IdManager = 3,
                 ListEmployees = new List<int>{3},
             },

@@ -31,9 +31,6 @@ namespace human_resource_management.Model
         {
             entity.Id = nextId++;
             employees.Add(entity);
-
-            // Debugging: In ra thông báo khi thêm nhân viên
-            Console.WriteLine($"Đã thêm nhân viên: ID: {entity.Id}, Name: {entity.Name}");
         }
 
         public override void Update(EmployeeModel entity)

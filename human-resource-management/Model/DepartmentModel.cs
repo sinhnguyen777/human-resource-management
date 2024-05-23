@@ -6,7 +6,6 @@ namespace human_resource_management.Model
     public class DepartmentModel
     {
         public int Id { get; set; }
-        public string? DepartmentCode { get; set; }
         public string? Name { get; set; }
         public int TeamSize { get; set; }
         public List<int>? ListEmployees { get; set; }
@@ -48,7 +47,6 @@ namespace human_resource_management.Model
 
             if (existingDepartment != null)
             {
-                existingDepartment.DepartmentCode = entity.DepartmentCode;
                 existingDepartment.Name = entity.Name;
                 existingDepartment.TeamSize = entity.TeamSize;
                 existingDepartment.IdManager = entity.IdManager;

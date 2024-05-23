@@ -10,7 +10,7 @@ namespace human_resource_management.Data
                 Name = "Information Technology",
                 TeamSize = 10,
                 IdManager = 5,
-                ListEmployees = new List<int>{5},
+                ListEmployees = new List<int>{5, 2, 3},
             },
             new DepartmentModel() {
                 Id = 2,
@@ -24,7 +24,7 @@ namespace human_resource_management.Data
                 Name = "Technical",
                 TeamSize = 5,
                 IdManager = 4,
-                ListEmployees = new List<int>{4},
+                ListEmployees = new List<int>{4, 1},
             },
             new DepartmentModel() {
                 Id = 4,

@@ -254,8 +254,16 @@ namespace human_resource_management.Controller
                 Console.Write("Lựa chọn của bạn (nhập số): ");
                 if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departments.Count)
                 {
-                    selectedDepartment = departments[choice - 1].Id;
-                    validChoice = true;
+                    int departmentEmployeeCount = departments[choice - 1].ListEmployees.Count != null ? departments[choice - 1].ListEmployees.Count : 0;
+                    if (departmentEmployeeCount < departments[choice - 1].TeamSize)
+                    {
+                        selectedDepartment = departments[choice - 1].Id;
+                        validChoice = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Phòng ban đã có đủ người. Vui lòng chọn phòng ban khác.");
+                    }
                 }
                 else
                 {

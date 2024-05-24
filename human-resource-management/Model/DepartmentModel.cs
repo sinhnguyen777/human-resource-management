@@ -80,5 +80,10 @@ namespace human_resource_management.Model
             var department = GetAll().FirstOrDefault(d => d.Id == id);
             return department?.Name ?? "Không xác định";
         }
+
+        public DepartmentModel GetByName(string name)
+        {
+            return _department.Find(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

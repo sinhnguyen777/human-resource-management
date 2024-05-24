@@ -20,13 +20,13 @@ namespace human_resource_management.Controller
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
             Console.WriteLine("Danh sách phòng ban:");
-            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+            Console.WriteLine("{0, -20}| {1, -31}| {2, -25}| {3, -25}| {4, -20}",
             "Mã phòng ban",
             "Tên phòng ban",
             "Số Nhân viên tối đa",
             "Số Nhân viên hiện có",
             "Trưởng phòng");
-            Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------");
 
             if (departments.Count == 0)
             {
@@ -38,7 +38,7 @@ namespace human_resource_management.Controller
                 {
                     string manager;
                     manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
-                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                    Console.WriteLine("{0, -20}| {1, -31}| {2, -25}| {3, -25}| {4, -20}",
                         item.Id,
                         item.Name,
                         item.TeamSize,
@@ -54,17 +54,38 @@ namespace human_resource_management.Controller
         {
             DepartmentModel department = new DepartmentModel();
 
-            Console.Write("Nhập tên phòng ban: ");
-            department.Name = InputValidator.stringValidate();
+            Console.Write("Nhập tên phòng ban (30 ký tự): ");
+            string departmentName = InputValidator.stringValidate();
+            while (departmentName == "" || departmentName.Length > 30)
+            {
+                if (departmentName.Length > 30)
+                {
+                    Console.Write("Tên phòng ban không vượt quá 30 ký tự, nhập lại: ");
+                }
+                if (departmentName == "")
+                {
+                    Console.Write("Tên phòng ban không được để trống, nhập lại: ");
+                }
+                departmentName = InputValidator.stringValidate();
+            }
+            department.Name = departmentName;
 
-            Console.Write("Nhập số lượng nhân viên: ");
-            department.TeamSize = int.Parse(InputValidator.intValidate());
+            Console.Write("Nhập số nhân viên tối đa: ");
+            int departmentTeamSize = int.Parse(InputValidator.intValidate());
+            while (departmentTeamSize <= 0)
+            {
+                Console.Write("Số nhân viên tối đa phải lớn hơn 0, Nhập lại: ");
+                departmentTeamSize = int.Parse(InputValidator.intValidate());
+            }
+            department.TeamSize = departmentTeamSize;
 
             departmentRepository.Add(department);
         }
 
         public void DeleteDepartment()
         {
+            GetAllDepartments();
+            Console.WriteLine();
             Console.Write("Nhập ID phòng ban cần xóa: ");
             int id = int.Parse(InputValidator.intValidate());
 
@@ -93,6 +114,8 @@ namespace human_resource_management.Controller
         {
             DepartmentModel? department = null;
             int id;
+            GetAllDepartments();
+            Console.WriteLine();
             Console.Write("Nhập ID phòng ban cần sửa: ");
             id = int.Parse(InputValidator.intValidate());
 
@@ -109,26 +132,39 @@ namespace human_resource_management.Controller
             }
 
 
-            Console.Write("Nhập tên phòng ban: ");
-            department.Name = InputValidator.stringValidate();
+            Console.Write("Nhập tên phòng ban (30 ký tự) (enter để bỏ qua): ");
+            string departmentName = InputValidator.stringValidate();
+            while (departmentName.Length > 30)
+            {
+                Console.Write("Tên phòng ban không vượt quá 30 ký tự, nhập lại: ");
+                departmentName = InputValidator.stringValidate();
+            }
+            if (departmentName != "")
+            {
+                department.Name = departmentName;
+            }
 
             int numberDepartment;
 
             while (true)
             {
-                Console.Write("Nhập số lượng nhân viên: ");
+                Console.Write("Nhập số lượng nhân viên (nhập 0 để bỏ qua): ");
                 numberDepartment = int.Parse(InputValidator.intValidate());
 
+                if (numberDepartment == 0)
+                {
+                    break;
+                }
                 if (department.ListEmployees.Count > numberDepartment)
                 {
                     Console.WriteLine("Số lượng nhân viên tối đa không được nhỏ hơn số lượng nhân viên hiện tại đang có trong phòng vui lòng thử lại");
                 }
                 else
                 {
+                    department.TeamSize = numberDepartment;
                     break;
                 }
             }
-            department.TeamSize = numberDepartment;
             departmentRepository.Update(department);
             Console.WriteLine("Cập nhật phòng ban thành công.");
         }
@@ -169,17 +205,17 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine($"Danh sách nhân viên trong phòng ban '{selectedDepartment.Name}': \n");
 
-                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
+                Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
                     "Mã nhân viên",
                     "Tên nhân viên",
                     "Ngày sinh",
                     "Giới tính",
                     "Lương",
                     "Vị trí");
-                Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employeesInDepartment)
                 {
-                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
+                    Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}| {4, -20}| {5, -10}",
                         item.Id,
                         item.Name,
                         item.Birthday.ToShortDateString(),
@@ -314,17 +350,17 @@ namespace human_resource_management.Controller
             {
                 Console.WriteLine();
                 Console.WriteLine("Danh sách nhân viên chưa có phòng ban:");
-                Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}",
+                Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}",
                         "Mã nhân viên",
                         "Tên nhân viên",
                         "Ngày sinh",
                         "Giới tính",
                         "Lương",
                         "Vị trí");
-                Console.WriteLine("-----------------------------------------------------------------------------------");
+                Console.WriteLine("-----------------------------------------------------------------------------------------");
                 foreach (EmployeeModel employee in employees)
                 {
-                    Console.WriteLine("{0, -18}| {1, -25}| {2, -18}| {3, -20}",
+                    Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}",
                         employee.Id,
                         employee.Name,
                         employee.Birthday.ToShortDateString(),
@@ -357,13 +393,13 @@ namespace human_resource_management.Controller
                 {
                     Console.WriteLine();
                     Console.WriteLine("Danh sách phòng ban:");
-                    Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                    Console.WriteLine("{0, -20}| {1, -31}| {2, -25}| {3, -25}| {4, -20}",
                     "Mã phòng ban",
                     "Tên phòng ban",
                     "Số Nhân viên tối đa",
                     "Số Nhân viên hiện có",
                     "Trưởng phòng");
-                    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------");
 
                     if (departments.Count == 0)
                     {
@@ -375,7 +411,7 @@ namespace human_resource_management.Controller
                         {
                             string manager;
                             manager = item.IdManager != null ? employeeRepository.GetById(item.IdManager ?? 0).Name : "Không có trưởng phòng";
-                            Console.WriteLine("{0, -20}| {1, -28}| {2, -25}| {3, -25}| {4, -20}",
+                            Console.WriteLine("{0, -20}| {1, -31}| {2, -25}| {3, -25}| {4, -20}",
                                 item.Id,
                                 item.Name,
                                 item.TeamSize,

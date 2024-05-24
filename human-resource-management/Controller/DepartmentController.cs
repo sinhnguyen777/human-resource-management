@@ -32,7 +32,7 @@ namespace human_resource_management.Controller
                 "Số Nhân viên tối đa",
                 "Số Nhân viên hiện có",
                 "Trưởng phòng");
-                Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (DepartmentModel item in departments)
                 {
                     string manager;
@@ -416,7 +416,7 @@ namespace human_resource_management.Controller
                 {
                     if (departments.Count == 0)
                     {
-                        Console.WriteLine("Danh sách rỗng, hiện tại chưa có phòng ban nào \n");
+                        Console.WriteLine("Hiện tại chưa có phòng ban nào còn chỗ \n");
                     }
                     else
                     {
@@ -428,7 +428,7 @@ namespace human_resource_management.Controller
                         "Số Nhân viên tối đa",
                         "Số Nhân viên hiện có",
                         "Trưởng phòng");
-                        Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------");
+                        Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------------------------");
                         foreach (DepartmentModel item in departments)
                         {
                             string manager;

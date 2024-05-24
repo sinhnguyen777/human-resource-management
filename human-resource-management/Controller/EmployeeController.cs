@@ -95,13 +95,13 @@ namespace human_resource_management.Controller
                 employee.Position = InputValidator.stringValidate();
             }
 
-            int departmentId = InputDepartment() ?? 0;
+            int? departmentId = InputDepartment();
             employee.IdDepartment = departmentId;
 
             employeeRepository.Add(employee);
             int newEmployeeId = employee.Id;
 
-            DepartmentModel department = departmentRepository.GetById(departmentId);
+            DepartmentModel department = departmentRepository.GetById(departmentId ?? 0);
             if (department != null)
             {
                 if (department.ListEmployees == null)
@@ -233,9 +233,9 @@ namespace human_resource_management.Controller
                             Console.WriteLine("Cập nhật vị trí làm việc nhân viên thành công.");
                             break;
                         case 6:
-                            int departmentId = InputDepartment() ?? 0;
+                            int? departmentId = InputDepartment();
                             employee.IdDepartment = departmentId;
-                            DepartmentModel department = departmentRepository.GetById(departmentId);
+                            DepartmentModel department = departmentRepository.GetById(departmentId ?? 0);
                             if (department != null)
                             {
                                 if (department.ListEmployees == null)
@@ -355,7 +355,7 @@ namespace human_resource_management.Controller
 
         private int? InputDepartment()
         {
-            List<DepartmentModel> departments = departmentRepository.GetAll();
+            List<DepartmentModel> departments = departmentRepository.GetAll().FindAll(department => department.TeamSize < department.ListEmployees.Count());
             if (departments.Count() > 0)
             {
                 Console.WriteLine("Chọn phòng ban:");

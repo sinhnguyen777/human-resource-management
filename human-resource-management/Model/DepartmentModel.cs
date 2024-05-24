@@ -29,10 +29,7 @@ namespace human_resource_management.Model
             {
                 return existingDepartment;
             }
-            else
-            {
-                throw new ArgumentException("Department not found");
-            }
+            return null;
         }
 
         public override void Add(DepartmentModel entity)

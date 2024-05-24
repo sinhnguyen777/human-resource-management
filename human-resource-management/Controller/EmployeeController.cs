@@ -22,23 +22,22 @@ namespace human_resource_management.Controller
         public void GetAllListEmployees()
         {
             List<EmployeeModel> employees = employeeRepository.GetAll();
-            Console.WriteLine("Danh sách nhân viên: \n");
-
-            Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}| {4, -20}| {5, -11}| {6, -10}",
-            "Mã nhân viên",
-            "Tên nhân viên",
-            "Ngày sinh",
-            "Giới tính",
-            "Lương",
-            "Vị trí",
-            "Phòng ban");
-            Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------------");
             if (employees.Count == 0)
             {
                 Console.WriteLine("Danh sách rỗng, hiện tại chưa có nhân viên nào \n");
             }
             else
             {
+                Console.WriteLine("Danh sách nhân viên: \n");
+                Console.WriteLine("{0, -18}| {1, -31}| {2, -18}| {3, -20}| {4, -20}| {5, -11}| {6, -10}",
+                "Mã nhân viên",
+                "Tên nhân viên",
+                "Ngày sinh",
+                "Giới tính",
+                "Lương",
+                "Vị trí",
+                "Phòng ban");
+                Console.WriteLine("------------------------------------------------------------------------------------------------------------------------------------------");
                 foreach (var item in employees)
                 {
                     string departmentName = departmentRepository.GetDepartmentNameById(item.IdDepartment ?? 0);
@@ -96,7 +95,7 @@ namespace human_resource_management.Controller
                 employee.Position = InputValidator.stringValidate();
             }
 
-            int departmentId = InputDepartment();
+            int departmentId = InputDepartment() ?? 0;
             employee.IdDepartment = departmentId;
 
             employeeRepository.Add(employee);
@@ -117,151 +116,165 @@ namespace human_resource_management.Controller
 
         public void DeleteEmployee()
         {
-            Console.Write("Nhập ID nhân viên cần xóa: ");
-            int id = int.Parse(InputValidator.intValidate());
-            EmployeeModel employee = employeeRepository.GetById(id);
-            if (employee == null)
+            GetAllListEmployees();
+            if (employeeRepository.GetAll().Count() > 0)
             {
-                Console.WriteLine("Không tìm thấy nhân viên có ID: " + id);
-            }
-            else
-            {
-                DepartmentModel department = departmentRepository.GetById(employee.IdDepartment ?? 0);
-                employeeRepository.Delete(employee);
-                if (department.IdManager == id)
+                Console.WriteLine();
+                Console.Write("Nhập ID nhân viên cần xóa: ");
+                int id = int.Parse(InputValidator.intValidate());
+                EmployeeModel employee = employeeRepository.GetById(id);
+                if (employee == null)
                 {
-                    department.IdManager = null;
+                    Console.WriteLine("Không tìm thấy nhân viên có ID: " + id);
                 }
-                department.ListEmployees.Remove(id);
-                Console.WriteLine("Xóa nhân viên thành công.");
+                else if (departmentRepository.GetById(employee.IdDepartment ?? 0) != null)
+                {
+                    DepartmentModel department = departmentRepository.GetById(employee.IdDepartment ?? 0);
+                    employeeRepository.Delete(employee);
+                    if (department.IdManager == id)
+                    {
+                        department.IdManager = null;
+                    }
+                    department.ListEmployees.Remove(id);
+                    Console.WriteLine("Xóa nhân viên thành công.");
+                }
+                else
+                {
+                    employeeRepository.Delete(employee);
+                    Console.WriteLine("Xóa nhân viên thành công.");
+                }
             }
-
         }
 
         public void UpdateEmployee()
         {
             EmployeeModel? employee = null;
             GetAllListEmployees();
-            Console.WriteLine();
-
-            Console.Write("Nhập ID nhân viên cần sửa: ");
-            int id = int.Parse(InputValidator.intValidate());
-
-            while ((employee = employeeRepository.GetById(id)) == null)
-            {
-                Console.WriteLine("Không tìm thấy nhân viên có ID: " + id + "vui lòng nhập lại");
-                Console.Write("Nhập ID nhân viên cần cập nhật: ");
-                id = int.Parse(InputValidator.intValidate());
-            }
-
-            while (true)
+            if (employeeRepository.GetAll().Count() > 0)
             {
                 Console.WriteLine();
-                Console.WriteLine("1. Tên nhân viên");
-                Console.WriteLine("2. Ngày sinh");
-                Console.WriteLine("3. Giới tính");
-                Console.WriteLine("4. Lương");
-                Console.WriteLine("5. Vị trí");
-                Console.WriteLine("6. Phòng ban");
-                Console.Write("Chọn mục cần cập nhật (nhập 0 để thoát): ");
-                int menu = int.Parse(InputValidator.intValidate());
-                Console.WriteLine();
-                if (menu == 0)
+
+                Console.Write("Nhập ID nhân viên cần sửa: ");
+                int id = int.Parse(InputValidator.intValidate());
+
+                while ((employee = employeeRepository.GetById(id)) == null)
                 {
-                    break;
+                    Console.WriteLine("Không tìm thấy nhân viên có ID: " + id + "vui lòng nhập lại");
+                    Console.Write("Nhập ID nhân viên cần cập nhật: ");
+                    id = int.Parse(InputValidator.intValidate());
                 }
-                switch (menu)
+
+                while (true)
                 {
-                    case 1:
-                        Console.Write("Nhập tên nhân viên: ");
-                        string employeeName = InputValidator.stringValidate();
-                        while (employeeName == "" || employeeName.Length > 30)
-                        {
-                            if (employeeName.Length > 30)
+                    Console.WriteLine();
+                    Console.WriteLine("1. Tên nhân viên");
+                    Console.WriteLine("2. Ngày sinh");
+                    Console.WriteLine("3. Giới tính");
+                    Console.WriteLine("4. Lương");
+                    Console.WriteLine("5. Vị trí");
+                    Console.WriteLine("6. Phòng ban");
+                    Console.Write("Chọn mục cần cập nhật (nhập 0 để thoát): ");
+                    int menu = int.Parse(InputValidator.intValidate());
+                    Console.WriteLine();
+                    if (menu == 0)
+                    {
+                        break;
+                    }
+                    switch (menu)
+                    {
+                        case 1:
+                            Console.Write("Nhập tên nhân viên: ");
+                            string employeeName = InputValidator.stringValidate();
+                            while (employeeName == "" || employeeName.Length > 30)
                             {
-                                Console.Write("Tên không vượt quá 30 ký tự, nhập lại: ");
+                                if (employeeName.Length > 30)
+                                {
+                                    Console.Write("Tên không vượt quá 30 ký tự, nhập lại: ");
+                                }
+                                if (employeeName == "")
+                                {
+                                    Console.Write("Không được để trống tên, nhập lại: ");
+                                }
+                                employeeName = InputValidator.stringValidate();
                             }
-                            if (employeeName == "")
+                            employee.Name = employeeName;
+                            Console.WriteLine("Cập nhật tên nhân viên thành công.");
+                            break;
+                        case 2:
+                            employee.Birthday = DateValidator.GetValidDateOfBirth();
+                            Console.WriteLine("Cập nhật ngày sinh nhân viên thành công.");
+                            break;
+                        case 3:
+                            employee.Sex = InputGender();
+                            Console.WriteLine("Cập nhật giới tính nhân viên thành công.");
+                            break;
+                        case 4:
+                            Console.Write("Nhập lương: ");
+                            int salaryInput = int.Parse(InputValidator.intValidate());
+                            employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
+                            Console.WriteLine("Cập nhật lương nhân viên thành công.");
+                            break;
+                        case 5:
+                            Console.Write("Nhập vị trí làm việc: ");
+                            string employeePosition = InputValidator.stringValidate();
+                            while (employeePosition == "" || employeePosition.Length > 10)
                             {
-                                Console.Write("Không được để trống tên, nhập lại: ");
+                                if (employeePosition.Length > 10)
+                                {
+                                    Console.Write("tên vị trí làm việc không vượt quá 10 ký tự, nhập lại: ");
+                                }
+                                if (employeePosition == "")
+                                {
+                                    Console.Write("Không được để trống vị trí làm việc, nhập lại: ");
+                                }
+                                employeePosition = InputValidator.stringValidate();
                             }
-                            employeeName = InputValidator.stringValidate();
-                        }
-                        employee.Name = employeeName;
-                        Console.WriteLine("Cập nhật tên nhân viên thành công.");
-                        break;
-                    case 2:
-                        employee.Birthday = DateValidator.GetValidDateOfBirth();
-                        Console.WriteLine("Cập nhật ngày sinh nhân viên thành công.");
-                        break;
-                    case 3:
-                        employee.Sex = InputGender();
-                        Console.WriteLine("Cập nhật giới tính nhân viên thành công.");
-                        break;
-                    case 4:
-                        Console.Write("Nhập lương: ");
-                        int salaryInput = int.Parse(InputValidator.intValidate());
-                        employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
-                        Console.WriteLine("Cập nhật lương nhân viên thành công.");
-                        break;
-                    case 5:
-                        Console.Write("Nhập vị trí làm việc: ");
-                        string employeePosition = InputValidator.stringValidate();
-                        while (employeePosition == "" || employeePosition.Length > 10)
-                        {
-                            if (employeePosition.Length > 10)
+                            employee.Position = employeePosition;
+                            Console.WriteLine("Cập nhật vị trí làm việc nhân viên thành công.");
+                            break;
+                        case 6:
+                            int departmentId = InputDepartment() ?? 0;
+                            employee.IdDepartment = departmentId;
+                            DepartmentModel department = departmentRepository.GetById(departmentId);
+                            if (department != null)
                             {
-                                Console.Write("tên vị trí làm việc không vượt quá 10 ký tự, nhập lại: ");
+                                if (department.ListEmployees == null)
+                                {
+                                    department.ListEmployees = new List<int>();
+                                }
+                                int newEmployeeId = employee.Id;
+                                department.ListEmployees.Add(newEmployeeId);
+                                departmentRepository.Update(department);
+                                Console.WriteLine("Cập nhật phòng ban nhân viên thành công.");
                             }
-                            if (employeePosition == "")
+                            else
                             {
-                                Console.Write("Không được để trống vị trí làm việc, nhập lại: ");
+                                Console.WriteLine("Chưa có phòng ban nào.");
                             }
-                            employeePosition = InputValidator.stringValidate();
-                        }
-                        employee.Position = employeePosition;
-                        Console.WriteLine("Cập nhật vị trí làm việc nhân viên thành công.");
-                        break;
-                    case 6:
-                        int departmentId = InputDepartment();
-                        employee.IdDepartment = departmentId;
-                        DepartmentModel department = departmentRepository.GetById(departmentId);
-                        if (department != null)
-                        {
-                            if (department.ListEmployees == null)
-                            {
-                                department.ListEmployees = new List<int>();
-                            }
-                            int newEmployeeId = employee.Id;
-                            department.ListEmployees.Add(newEmployeeId);
-                            departmentRepository.Update(department);
-                        }
-                        Console.WriteLine("Cập nhật phòng ban nhân viên thành công.");
-                        break;
-                    default:
-                        Console.WriteLine("Số đã nhập không hợp lệ, vui lòng nhập lại");
-                        break;
+                            break;
+                        default:
+                            Console.WriteLine("Số đã nhập không hợp lệ, vui lòng nhập lại");
+                            break;
+                    }
                 }
             }
-        }
-        public void DeleteEmployee(EmployeeModel employee)
-        {
-            employeeRepository.Delete(employee);
-            Console.WriteLine("Xóa nhân viên thành công.");
         }
 
         public void SortEmployeesBy(Func<EmployeeModel, IComparable> keySelector)
         {
-            List<EmployeeModel> employees = employeeRepository.GetAll();
-            for (int i = 0; i < employees.Count - 1; i++)
+            if (employeeRepository.GetAll().Count() > 0)
             {
-                for (int j = 0; j < employees.Count - i - 1; j++)
+                List<EmployeeModel> employees = employeeRepository.GetAll();
+                for (int i = 0; i < employees.Count - 1; i++)
                 {
-                    if (keySelector(employees[j]).CompareTo(keySelector(employees[j + 1])) > 0)
+                    for (int j = 0; j < employees.Count - i - 1; j++)
                     {
-                        var temp = employees[j];
-                        employees[j] = employees[j + 1];
-                        employees[j + 1] = temp;
+                        if (keySelector(employees[j]).CompareTo(keySelector(employees[j + 1])) > 0)
+                        {
+                            var temp = employees[j];
+                            employees[j] = employees[j + 1];
+                            employees[j + 1] = temp;
+                        }
                     }
                 }
             }
@@ -340,40 +353,44 @@ namespace human_resource_management.Controller
             }
         }
 
-        private int InputDepartment()
+        private int? InputDepartment()
         {
             List<DepartmentModel> departments = departmentRepository.GetAll();
-            Console.WriteLine("Chọn phòng ban:");
-            int index = 1;
-            foreach (var department in departments)
+            if (departments.Count() > 0)
             {
-                Console.WriteLine($"{index}. {department.Name}");
-                index++;
-            }
-            int selectedDepartment = -1;
-            bool validChoice = false;
-            while (!validChoice)
-            {
-                Console.Write("Lựa chọn của bạn (nhập số): ");
-                if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departments.Count)
+                Console.WriteLine("Chọn phòng ban:");
+                int index = 1;
+                foreach (var department in departments)
                 {
-                    int departmentEmployeeCount = departments[choice - 1].ListEmployees.Count != null ? departments[choice - 1].ListEmployees.Count : 0;
-                    if (departmentEmployeeCount < departments[choice - 1].TeamSize)
+                    Console.WriteLine($"{index}. {department.Name}");
+                    index++;
+                }
+                int selectedDepartment = -1;
+                bool validChoice = false;
+                while (!validChoice)
+                {
+                    Console.Write("Lựa chọn của bạn (nhập số): ");
+                    if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= departments.Count)
                     {
-                        selectedDepartment = departments[choice - 1].Id;
-                        validChoice = true;
+                        int departmentEmployeeCount = departments[choice - 1].ListEmployees.Count != null ? departments[choice - 1].ListEmployees.Count : 0;
+                        if (departmentEmployeeCount < departments[choice - 1].TeamSize)
+                        {
+                            selectedDepartment = departments[choice - 1].Id;
+                            validChoice = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Phòng ban đã có đủ người. Vui lòng chọn phòng ban khác.");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Phòng ban đã có đủ người. Vui lòng chọn phòng ban khác.");
+                        Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng nhập lại.");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng nhập lại.");
-                }
+                return selectedDepartment;
             }
-            return selectedDepartment;
+            return null;
         }
 
         public void ExportDataEmployeesToFile()

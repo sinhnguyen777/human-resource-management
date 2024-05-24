@@ -243,26 +243,6 @@ namespace human_resource_management.Controller
                             employee.Position = employeePosition;
                             Console.WriteLine("Cập nhật vị trí làm việc nhân viên thành công.");
                             break;
-                        case 6:
-                            int? departmentId = InputDepartment();
-                            employee.IdDepartment = departmentId;
-                            DepartmentModel department = departmentRepository.GetById(departmentId ?? 0);
-                            if (department != null)
-                            {
-                                if (department.ListEmployees == null)
-                                {
-                                    department.ListEmployees = new List<int>();
-                                }
-                                int newEmployeeId = employee.Id;
-                                department.ListEmployees.Add(newEmployeeId);
-                                departmentRepository.Update(department);
-                                Console.WriteLine("Cập nhật phòng ban nhân viên thành công.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Chưa có phòng ban nào.");
-                            }
-                            break;
                         default:
                             Console.WriteLine("Số đã nhập không hợp lệ, vui lòng nhập lại");
                             break;
@@ -434,7 +414,7 @@ namespace human_resource_management.Controller
                 foreach (var item in employees)
                 {
                     string departmentName = departmentRepository.GetDepartmentNameById(item.IdDepartment ?? 0);
-                    writer.WriteLine($"Mã nhân viên: {item.Id}, Tên Nhân viên: {item.Name}, Ngày Sinh: {item.Birthday.ToShortDateString()}, Giới tính: {item.Sex.ToVietnameseString()}, Lương: {item.Salary} VNĐ, Vị trí: {item.Position}, Phòng ban: {departmentName}");
+                    writer.WriteLine($"Mã nhân viên: {item.Id}, Tên Nhân viên: {item.Name}, Ngày Sinh: {item.Birthday.ToShortDateString()}, Giới tính: {item.Sex.ToVietnameseString()}, Lương: {item.Salary}, Vị trí: {item.Position}, Phòng ban: {departmentName}");
                 }
             }
 

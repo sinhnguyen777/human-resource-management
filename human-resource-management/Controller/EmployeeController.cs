@@ -415,12 +415,27 @@ namespace human_resource_management.Controller
 
         public void ImportDataEmpoyeesToFile()
         {
-            Console.Write("Nhập tên file để đọc dữ liệu (ví dụ: employees.txt): ");
-            string fileName = InputValidator.stringValidate();
 
-            if (string.IsNullOrWhiteSpace(fileName))
+            string fileName;
+
+            while (true)
             {
-                fileName = "employees.txt";
+                Console.Write("Nhập tên file để đọc dữ liệu (ví dụ: employees.txt): ");
+                fileName = InputValidator.stringValidate();
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    fileName = "employees.txt";
+                    break;
+                }
+                else if (!fileName.EndsWith(".txt", StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.Write("Tên file không hợp lệ. Vui lòng nhập lại tên file với đuôi .txt: ");
+                }
+                else
+                {
+                    break;
+                }
             }
 
             string userDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -444,7 +459,15 @@ namespace human_resource_management.Controller
                        @"Mã nhân viên: (?<id>\d+), Tên Nhân viên: (?<name>[^,]+), Ngày Sinh: (?<birthday>\d{2}/\d{2}/\d{4}), Giới tính: (?<sex>[^,]+), Lương: (?<salary>[^,]+), Vị trí: (?<position>[^,]+), Phòng ban: (?<department>[^,]+)");
                     if (match.Success)
                     {
-                        // EmployeeModel employee = new EmployeeModel();
+                        string departmentName = match.Groups["department"].Value;
+                        DepartmentModel department = departmentRepository.GetByName(departmentName);
+
+                        if (department == null)
+                        {
+                            Console.WriteLine($"Phòng ban không xác định: {departmentName}. Nhân viên này sẽ không được thêm.");
+                            continue;
+                        }
+
                         EmployeeModel employee = new EmployeeModel
                         {
                             Id = int.Parse(match.Groups["id"].Value),
@@ -458,7 +481,9 @@ namespace human_resource_management.Controller
                                 _ => throw new ArgumentOutOfRangeException("Giới tính không hợp lệ trong file.")
                             },
                             Position = match.Groups["position"].Value,
-                            Salary = match.Groups["salary"].Value
+                            Salary = match.Groups["salary"].Value,
+                            IdDepartment = department.Id
+
                         };
 
                         employeeRepository.Add(employee);

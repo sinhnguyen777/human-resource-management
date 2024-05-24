@@ -78,6 +78,12 @@ namespace human_resource_management.Controller
 
             Console.Write("Nhập lương: ");
             int salaryInput = int.Parse(InputValidator.intValidate());
+            while (salaryInput < 0)
+            {
+                Console.Write("Lương không được là số âm, nhập lại: ");
+
+                salaryInput = int.Parse(InputValidator.intValidate());
+            }
             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
 
             Console.Write("Vị trí làm việc: ");
@@ -95,7 +101,22 @@ namespace human_resource_management.Controller
                 employee.Position = InputValidator.stringValidate();
             }
 
+            int? departmentId = InputDepartment();
+            employee.IdDepartment = departmentId;
+
             employeeRepository.Add(employee);
+            int newEmployeeId = employee.Id;
+
+            DepartmentModel department = departmentRepository.GetById(departmentId ?? 0);
+            if (department != null)
+            {
+                if (department.ListEmployees == null)
+                {
+                    department.ListEmployees = new List<int>();
+                }
+                department.ListEmployees.Add(newEmployeeId);
+                departmentRepository.Update(department);
+            }
             Console.WriteLine("Thêm nhân viên thành công.");
         }
 
@@ -157,6 +178,7 @@ namespace human_resource_management.Controller
                     Console.WriteLine("3. Giới tính");
                     Console.WriteLine("4. Lương");
                     Console.WriteLine("5. Vị trí");
+                    Console.WriteLine("6. Phòng ban");
                     Console.Write("Chọn mục cần cập nhật (nhập 0 để thoát): ");
                     int menu = int.Parse(InputValidator.intValidate());
                     Console.WriteLine();
@@ -195,6 +217,11 @@ namespace human_resource_management.Controller
                         case 4:
                             Console.Write("Nhập lương: ");
                             int salaryInput = int.Parse(InputValidator.intValidate());
+                            while (salaryInput < 0)
+                            {
+                                Console.Write("Lương không được là số âm, nhập lại: ");
+                                salaryInput = int.Parse(InputValidator.intValidate());
+                            }
                             employee.Salary = salaryInput.ToString("N0", new CultureInfo("vi-VN"));
                             Console.WriteLine("Cập nhật lương nhân viên thành công.");
                             break;
@@ -215,6 +242,26 @@ namespace human_resource_management.Controller
                             }
                             employee.Position = employeePosition;
                             Console.WriteLine("Cập nhật vị trí làm việc nhân viên thành công.");
+                            break;
+                        case 6:
+                            int? departmentId = InputDepartment();
+                            employee.IdDepartment = departmentId;
+                            DepartmentModel department = departmentRepository.GetById(departmentId ?? 0);
+                            if (department != null)
+                            {
+                                if (department.ListEmployees == null)
+                                {
+                                    department.ListEmployees = new List<int>();
+                                }
+                                int newEmployeeId = employee.Id;
+                                department.ListEmployees.Add(newEmployeeId);
+                                departmentRepository.Update(department);
+                                Console.WriteLine("Cập nhật phòng ban nhân viên thành công.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Chưa có phòng ban nào.");
+                            }
                             break;
                         default:
                             Console.WriteLine("Số đã nhập không hợp lệ, vui lòng nhập lại");
@@ -319,7 +366,7 @@ namespace human_resource_management.Controller
 
         private int? InputDepartment()
         {
-            List<DepartmentModel> departments = departmentRepository.GetAll().FindAll(department => department.TeamSize < department.ListEmployees.Count());
+            List<DepartmentModel> departments = departmentRepository.GetAll().FindAll(department => department.TeamSize < (department.ListEmployees != null ? department.ListEmployees.Count() : 0));
             if (departments.Count() > 0)
             {
                 Console.WriteLine("Chọn phòng ban:");

@@ -14,14 +14,14 @@ namespace human_resource_management
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
-            foreach (EmployeeModel employee in employeeData.employees)
-            {
-                EmployeeView._employeeRepository.Add(employee);
-            }
-            foreach (DepartmentModel department in departmentData.departments)
-            {
-                DepartmentView._departmentRepository.Add(department);
-            }
+            // foreach (EmployeeModel employee in employeeData.employees)
+            // {
+            //     EmployeeView._employeeRepository.Add(employee);
+            // }
+            // foreach (DepartmentModel department in departmentData.departments)
+            // {
+            //     DepartmentView._departmentRepository.Add(department);
+            // }
 
             while (true)
             {

@@ -1,16 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "human-resource-management", "human-resource-management\human-resource-management.csproj", "{6F6D834F-9FBF-40C4-A844-0808B04FFA7D}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "human-resource-management", "human-resource-management\human-resource-management.csproj", "{5B7AAA02-A00B-4F96-8431-671F313E6D29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6F6D834F-9FBF-40C4-A844-0808B04FFA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F6D834F-9FBF-40C4-A844-0808B04FFA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F6D834F-9FBF-40C4-A844-0808B04FFA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F6D834F-9FBF-40C4-A844-0808B04FFA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B7AAA02-A00B-4F96-8431-671F313E6D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B7AAA02-A00B-4F96-8431-671F313E6D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B7AAA02-A00B-4F96-8431-671F313E6D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B7AAA02-A00B-4F96-8431-671F313E6D29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

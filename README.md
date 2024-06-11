@@ -23,3 +23,14 @@ _Run project_
 ```bash
 dotnet run
 ```
+
+## docs
+https://docs.google.com/document/d/1eeLQ0UEs8Rku4dRwQx3GW1ZSj-951PdmbJzypZLXGSw/edit?hl=vi
+
+https://app.diagrams.net/#G1e_7x9yBTzJ03O5HqP_UplWqLGpTsO0Cs#%7B%22pageId%22%3A%227Um8WSjUF6QbFy6H3fNg%22%7D
+
+https://human-resource-management.atlassian.net/jira/software/projects/HRM/boards/1
+
+https://docs.google.com/document/d/176YAFP1WvzRAVwCgJNZilfCHUYcQUiIvS732f8FViL8/edit#heading=h.35chy5cl9qt1
+
+https://www.canva.com/design/DAGF-JY85RI/j8kvB8ivVUg2s4Jpb2b-PA/edit

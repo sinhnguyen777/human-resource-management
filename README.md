@@ -34,3 +34,13 @@ https://human-resource-management.atlassian.net/jira/software/projects/HRM/board
 https://docs.google.com/document/d/176YAFP1WvzRAVwCgJNZilfCHUYcQUiIvS732f8FViL8/edit#heading=h.35chy5cl9qt1
 
 https://www.canva.com/design/DAGF-JY85RI/j8kvB8ivVUg2s4Jpb2b-PA/edit
+
+### Author
+
+- @sinhnguyen777 
+- @yuka166 
+- @chuljex 
+- @PhatMT99 
+- @tienyehet12 
+
+> ### _Thank you very much_ ^^
